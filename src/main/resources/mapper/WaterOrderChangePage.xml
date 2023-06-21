@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--
+mapper接口代理实现编写规则:
+    1,映射文件中的namespace要等于接口的全路径名称
+    2,映射文件中sql语句要等同于接口的方法名称
+    3,映射文件中传入参数类型要等于接口方法的传入参数类型
+    4,映射文件中返回结果集类型要等于接口方法的返回值类型
+-->
+
+<mapper namespace="com.FDSC.mapper.WaterOrderMapper">
+    <resultMap type="com.FDSC.entity.WaterOrder" id="WaterOrder">
+        <result property="orderId"       column="order_id"      />
+        <result property="orderUsername"       column="order_username"      />
+        <result property="orderCommodityName"     column="order_commodity_name"    />
+        <result property="orderCommodityNumber"     column="order_commodity_number"    />
+        <result property="orderIsComplete"     column="order_is_complete"    />
+        <result property="orderCreateTime"     column="order_create_time"     />
+        <result property="orderCampus"     column="order_campus"    />
+        <result property="orderArea"     column="order_area"    />
+        <result property="orderBuilding"     column="order_building"    />
+        <result property="orderDormitory"     column="order_dormitory"    />
+        <result property="orderBuyTime"   column="order_buy_time"  />
+        <result property="orderPrice"     column="order_price"    />
+    </resultMap>
+
+    <resultMap type="java.lang.Integer" id="count">
+        <result column="total"/>
+    </resultMap>
+
+    <select id="changePage" resultMap="WaterOrder">
+        select order_id  ,order_username ,order_commodity_name ,
+        order_commodity_number ,order_is_complete ,
+        order_create_time ,order_campus,order_area,order_building,
+        order_dormitory,order_buy_time ,order_price
+        from water_order
+        <where>
+            <if test="username!='' and username != null">
+               and order_username = #{username}
+            </if>
+            <if test="selectCode == 1">
+               and order_buy_time like concat('%',#{today},'%')
+            </if>
+            <if test="selectCode == 2">
+               and order_is_complete = 1
+            </if>
+            <if test="selectCode == 3">
+               and order_is_complete = 0
+            </if>
+            <if test="search != null and search != ''">
+                and (order_username like concat('%',#{search},'%') or order_commodity_name like concat('%',#{search},'%')
+                    or order_buy_time like concat('%',#{search},'%')
+                    or order_campus like concat('%',#{search},'%') or order_area like concat('%',#{search},'%')
+                    or order_building like concat('%',#{search},'%') or order_dormitory like concat('%',#{search},'%')
+                    )
+            </if>
+        </where>
+        order by order_create_time desc limit #{pageNum},#{pageSize}
+    </select>
+</mapper>

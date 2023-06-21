@@ -1,0 +1,18 @@
+server:
+  port: 9090
+
+#    url: jdbc:mysql://localhost:3306/lms?serverTimezone=GMT%2b8
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://8.130.20.247:3306/fdsc?serverTimezone=GMT%2b8&allowMultiQueries=true
+    username: root
+    password: 123456Aa
+#扫描所有mybatis的xml文件
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+#  configuration:
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

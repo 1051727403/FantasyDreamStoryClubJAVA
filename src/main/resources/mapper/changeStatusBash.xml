@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--
+mapper接口代理实现编写规则:
+    1,映射文件中的namespace要等于接口的全路径名称
+    2,映射文件中sql语句要等同于接口的方法名称
+    3,映射文件中传入参数类型要等于接口方法的传入参数类型
+    4,映射文件中返回结果集类型要等于接口方法的返回值类型
+-->
+<mapper namespace="com.FDSC.mapper.WaterOrderMapper">
+    <update id="changeStatusBash" >
+        <foreach collection="ids" item="id" separator=";">
+            update
+            water_order
+            set
+            order_is_complete = 1
+            where
+            order_id = #{id}
+        </foreach>
+    </update>
+</mapper>
