@@ -39,16 +39,11 @@ public class UserController {
         String username=user.getUsername();
         String password = user.getPassword();
         String nickname = user.getNickname();
-        String email = user.getEmail();
-        String phone=user.getPhone();
-        String isAdmin=user.getIsAdmin();
+        Integer isAdmin=user.getIsAdmin();
         //校验
         if(     StrUtil.isBlank(username)||
                 StrUtil.isBlank(password)||
-                StrUtil.isBlank(nickname)||
-                StrUtil.isBlank(email)||
-                StrUtil.isBlank(phone)||
-                StrUtil.isBlank(isAdmin)
+                StrUtil.isBlank(nickname)
         ) {
             return Result.error(Constants.CODE_400,"参数错误");
         }
