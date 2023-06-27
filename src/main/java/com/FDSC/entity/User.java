@@ -53,14 +53,6 @@ public class User {
     private LocalDateTime updateTime;
 
 
-
-
-//    //传给前端忽略
-//    @JsonIgnore
-//    public String getPassword() {
-//        return password;
-//    }
-
     //后端注册时获取不忽略
     @JsonProperty
     public void setPassword(final String password) {

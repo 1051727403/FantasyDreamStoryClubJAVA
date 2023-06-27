@@ -27,26 +27,18 @@ public class UserService extends ServiceImpl<UserMapper, User> {
 
     public boolean saveUser(User user){
         try{
-            if(user.getId()==0){
-                //没有id代表新增
-                try {
-                    //检查是否重名
-                    if (userMapper.checkUser(user.getUsername())) {
-                        throw new ServiceException(Constants.CODE_500, "用户名已存在，保存失败！");
-                    }
-                }catch (ServiceException se){
+            try {
+                //检查是否重名
+                if (userMapper.checkUser(user.getUsername())) {
                     throw new ServiceException(Constants.CODE_500, "用户名已存在，保存失败！");
                 }
-                return save(user);
-            }else{
-                //有id代表更新
-                return updateById(user);
+            }catch (ServiceException se){
+                throw new ServiceException(Constants.CODE_500, "用户名已存在，保存失败！");
             }
+            return save(user);
         }catch (Exception se){
             throw new ServiceException(Constants.CODE_500,"用户数据保存失败！");
         }
-
-        //return saveOrUpdate(user);
     }
 
     public Map<String, Object> login(String username, String password) {
@@ -77,14 +69,13 @@ public class UserService extends ServiceImpl<UserMapper, User> {
         User one=getUserInfo(user.getUsername(),"");
         UserDTO userDTO=new UserDTO();
         if(one==null){
-            save(user);
+            userMapper.saveuser(user);
             BeanUtils.copyProperties(user,userDTO);
             //头像不用设置
             return userDTO;
         }else{
-            throw new ServiceException(Constants.CODE_600,"该用户已被注册！");
+            throw new ServiceException(Constants.CODE_600,"该用户名已被注册！");
         }
-
     }
     private User getUserInfo(String username,String password){
         QueryWrapper queryWrapper=new QueryWrapper<User>();
@@ -146,17 +137,4 @@ public class UserService extends ServiceImpl<UserMapper, User> {
 
         return true;
     }
-
-//    @Autowired
-//    private UserMapper userMapper;
-
-//    public int save(User user){
-//        if(user.getId()==null){
-//            //没有id代表新增
-//            return userMapper.insert(user);
-//        }else{
-//            //有id代表更新
-//            return userMapper.update(user);
-//        }
-//    }
 }

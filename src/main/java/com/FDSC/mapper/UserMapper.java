@@ -10,6 +10,11 @@ public interface UserMapper extends BaseMapper<User> {
 
       @Select("select count(*) from sys_user where username=#{username}")
       boolean checkUser(String username);
+
+      @Insert("Insert into user(username,password,nickname,avatar_url) values" +
+              "(#{username},#{password},#{nickname},#{avatarUrl})")
+      boolean saveuser(User user);
+
 //    @Select("SELECT * from sys_user")
 //    List<User> findAll();
 //

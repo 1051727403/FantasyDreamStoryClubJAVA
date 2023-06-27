@@ -16,20 +16,8 @@ mapper接口代理实现编写规则:
             <if test="username!=null">
                 username=#{username},
             </if>
-<!--            <if test="password!=null">-->
-<!--                password=#{password}-->
-<!--            </if>-->
             <if test="nickname!=null">
                 nickname=#{nickname},
-            </if>
-            <if test="email!=null">
-                email=#{email},
-            </if>
-            <if test="phone!=null">
-                phone=#{phone},
-            </if>
-            <if test="address!=null">
-                address=#{address}
             </if>
         </set>
         <where>
