@@ -39,7 +39,6 @@ public class UserController {
         String username=user.getUsername();
         String password = user.getPassword();
         String nickname = user.getNickname();
-        Integer isAdmin=user.getIsAdmin();
         //校验
         if(     StrUtil.isBlank(username)||
                 StrUtil.isBlank(password)||
@@ -64,43 +63,12 @@ public class UserController {
         return Result.success(res);
     }
 
-
     //新增和修改
     @PostMapping
     public Result save(@RequestBody User user){
         return Result.success(userService.saveUser(user));
     }
 
-    //查询所有表格信息
-    @GetMapping
-    public List<User> findAll(){
-        return userService.list();
-    }
-
-    //删除
-    @DeleteMapping("/{id}")
-    public boolean delete(@PathVariable Integer id){
-        return userService.removeById(id);
-    }
-    //批量删除
-    @PostMapping("/del/bash")
-    public boolean deleteBash(@RequestBody List<Integer> ids){
-        return userService.removeByIds(ids);
-    }
-
-    //分页查询手写
-    //@RequestParam 将接收到的  ?pageNum=1?pageSize=10类型的进行映射
-//    @GetMapping("/page")
-//    public Map<String, Object> findPage(@RequestParam Integer pageNum, @RequestParam Integer pageSize,@RequestParam String username){
-//        pageNum=(pageNum-1)*pageSize;
-//        Integer count=userMapper.selectCount(username);
-//        Map<String,Object>res=new HashMap<>();
-//        List<User>data=userMapper.selectPage(pageNum,pageSize,username);
-//        res.put("data",data);
-//        res.put("count",count);
-//        return res;
-//    }
-    //mybitis-plus方式
     @GetMapping("/page")
     public IPage<User> findPage(@RequestParam Integer pageNum,
                                 @RequestParam Integer pageSize,
