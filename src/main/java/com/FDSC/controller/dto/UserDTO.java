@@ -11,5 +11,6 @@ public class UserDTO {
 //    String password;
     String nickname;
     String avatarUrl;
+    Integer totalLike;
     String token;
 }
