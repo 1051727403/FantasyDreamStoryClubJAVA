@@ -33,13 +33,14 @@ public class StoryController {
       return storyService.collectestory(storyid,userid);
     };
 
+    @GetMapping("/recommendStory")
+    public Result recommendStory() {
+        return storyService.recommend();
+    }
 
-
-
-
-
-
-
-
+    @GetMapping("/activityRecommend")
+    public Result activityRecommend() {
+        return storyService.activityRecommend();
+    }
 
 }
