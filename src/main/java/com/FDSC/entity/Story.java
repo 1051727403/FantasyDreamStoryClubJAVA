@@ -41,6 +41,10 @@ public class Story {
     @TableField(value = "introduce")
     private String introduce;
 
+    @Alias("封面")
+    @TableField(value = "cover_url")
+    private String coverUrl;
+
     @Alias("创建时间")
     @TableField(value = "create_time", fill = FieldFill.INSERT)
     private LocalDateTime createTime;
