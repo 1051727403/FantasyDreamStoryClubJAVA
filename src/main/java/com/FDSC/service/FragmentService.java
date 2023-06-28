@@ -9,6 +9,7 @@ import com.FDSC.entity.Fragment;
 import com.FDSC.entity.Story;
 import com.FDSC.mapper.FragmentMapper;
 import com.FDSC.mapper.StoryMapper;
+import com.FDSC.mapper.dto.FragmentMapperCommentDto;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
@@ -122,5 +123,69 @@ public class FragmentService extends ServiceImpl<FragmentMapper, Fragment> {
         return Result.success(res);
 
     }
+
+    private List<FragmentDto.CommentDTO> listToComment(List<FragmentMapperCommentDto> fragmentMapperCommentDtoList) {
+        Map<Long, FragmentDto.CommentDTO>topicMap=new HashMap<>();
+        Map<Long, FragmentMapperCommentDto>NodeMap=new HashMap<>();
+        List<FragmentDto.CommentDTO>result=new ArrayList<>();
+
+        for(FragmentMapperCommentDto comment:fragmentMapperCommentDtoList){
+            if(comment.getToId()==0){
+                //主题节点，转换后直接放入result
+                FragmentDto.CommentDTO commentDTO=new FragmentDto.CommentDTO();
+                commentDTO.setName(comment.getNickname());
+                commentDTO.setId(comment.getFromId());
+                commentDTO.setHeadImg(comment.getAvatarUrl());
+                commentDTO.setComment(comment.getContent());
+                commentDTO.setTime(comment.getTime());
+                commentDTO.setInputShow(false);
+                commentDTO.setReply(new ArrayList<>());
+                result.add(commentDTO);
+                topicMap.put(comment.getFromId(),commentDTO);
+            }
+            NodeMap.put(comment.getFromId(),comment);
+        }
+
+        for(FragmentMapperCommentDto comment:fragmentMapperCommentDtoList){
+            if(comment.getToId()==0){
+                //主题节点跳过
+            }else{
+                FragmentDto.CommentDTO topicNode=topicMap.get(comment.getTopicId());
+                FragmentMapperCommentDto parentNode=NodeMap.get(comment.getToId());
+
+                FragmentDto.CommentDTO.ReplyDTO replyDTO=new FragmentDto.CommentDTO.ReplyDTO();
+                replyDTO.setFrom(comment.getNickname());
+                replyDTO.setFromId(comment.getFromId());
+                replyDTO.setFromHeadImg(comment.getAvatarUrl());
+                replyDTO.setTo(parentNode.getNickname());
+                replyDTO.setToId(parentNode.getToId());
+                replyDTO.setComment(comment.getContent());
+                replyDTO.setTime(comment.getTime());
+                replyDTO.setInputShow(false);
+
+                topicNode.getReply().add(replyDTO);
+            }
+
+        }
+
+        return result;
+    }
+    //获取片段作者信息
+    public Result loadAuthorAndComment(long fragmentId) {
+        Map<String,Object>res=new HashMap<>();
+        //获取片段作者信息
+        FragmentDto.AuthorDTO author=new FragmentDto.AuthorDTO();
+        author=fragmentMapper.getFragmentAuthor(fragmentId);
+        res.put("author",author);
+        //获取评论
+        List<FragmentDto.CommentDTO> comment=new ArrayList<>();
+        //获取对应片段评论
+        List<FragmentMapperCommentDto> fragmentMapperCommentDtoList=fragmentMapper.getFragmentComments(fragmentId);
+        //转换格式
+        comment=listToComment(fragmentMapperCommentDtoList);
+        res.put("comments",comment);
+        return Result.success(res);
+    }
+
 
 }

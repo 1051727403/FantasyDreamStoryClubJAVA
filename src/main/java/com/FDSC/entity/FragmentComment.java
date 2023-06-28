@@ -36,6 +36,10 @@ public class FragmentComment {
     @TableField(value = "content")
     private String content;
 
+    @Alias("主题id，根节点id")
+    @TableField(value = "topic_id")
+    private Long topicId;
+
     @Alias("创建时间")
     @TableField(value = "create_time", fill = FieldFill.INSERT)
     private LocalDateTime createTime;
