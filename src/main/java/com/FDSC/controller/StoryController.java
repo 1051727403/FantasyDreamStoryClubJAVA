@@ -8,10 +8,7 @@ import com.FDSC.mapper.StoryMapper;
 import com.FDSC.service.StoryService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/story")
@@ -28,6 +25,13 @@ public class StoryController {
     public Result getstorytag(@RequestParam String storyid){
         return Result.success(storyService.getstorytag(storyid));
     }
+
+    @PostMapping("/collectestory")
+    public Result collectestory(@RequestParam String storyid,
+                                @RequestParam String userid){
+
+      return storyService.collectestory(storyid,userid);
+    };
 
 
 
