@@ -22,7 +22,7 @@ public class FragmentController {
 
     @GetMapping("/loadAllFragment")
     public Result loadAllFragment(@RequestParam long storyId){
-        return Result.success(fragmentService.loadAllFragment(storyId));
+        return fragmentService.loadAllFragment(storyId);
     }
 
 

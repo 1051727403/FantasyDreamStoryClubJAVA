@@ -132,29 +132,7 @@ public class ElectricityPaymentController {
         List<ElectricityPayment> list=reader.readAll(ElectricityPayment.class);
         return electricityPaymentService.saveBatch(list);
     }
-    @PostMapping
-    public Result saveOrEpayment(@RequestBody ElectricityPaymentUsernameDto electricityPayment){
-        String username = electricityPayment.getUsername();
-        log.info(electricityPayment.toString());
-        if(username != null && username != "")
-        {
-            LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
-            UserInfoDto user = userService.getUserInfoDtoInfo(username);
-            if(user == null)
-            {
-                return Result.error("500", "学号不存在");
-            }
-            electricityPayment.setUid(user.getId());
-            if( user.getBuilding() != null && !user.getBuilding().equals(electricityPayment.getBuilding())
-            || user.getCampus() != null &&!user.getCampus().equals(electricityPayment.getCampus())
-            || user.getArea() != null && !user.getArea().equals(electricityPayment.getArea())
-            || user.getDormitory() != null && !user.getDormitory().equals(electricityPayment.getRoomId()))
-            {
-                return Result.error("500", "与该学生的所住宿舍矛盾");
-            }
-        }
-        boolean b = electricityPaymentService.saveOrUpdate(electricityPayment);
-        return b ? Result.success("保存成功"): Result.error();
-    }
+
+
 
 }
