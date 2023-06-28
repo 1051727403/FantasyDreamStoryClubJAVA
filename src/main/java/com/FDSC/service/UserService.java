@@ -93,20 +93,6 @@ public class UserService extends ServiceImpl<UserMapper, User> {
         }
     }
 
-    public UserInfoDto getUserInfoDtoInfo(String username) {
-        QueryWrapper queryWrapper=new QueryWrapper<User>();
-        queryWrapper.eq("username",username);
-        UserInfoDto uds = new UserInfoDto();
-        User one;
-        try{
-            one = getOne(queryWrapper);
-            BeanUtils.copyProperties(one,uds);
-            return uds;
-        }
-        catch(Exception e){
-            throw new ServiceException(Constants.CODE_500,"无用户");
-        }
-    }
 
     public boolean upUserInfo(UserInfoDto user) {
             User u = new User();

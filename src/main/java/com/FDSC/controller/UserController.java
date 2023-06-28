@@ -14,6 +14,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.FDSC.controller.dto.UserDTO;
 import com.FDSC.controller.dto.UserInfoDto;
 import com.FDSC.utils.TokenUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -152,10 +153,12 @@ public class UserController {
 
 
     @GetMapping("/getUserInfo")
-    public Result getUserInfo(@RequestParam String username) {
-        return Result.success(userService.getUserInfoDtoInfo(username));
+    public Result getUserInfo(@RequestParam String userid) {
+        User user= userService.getById(userid);
+        UserDTO u = new UserDTO();
+        BeanUtils.copyProperties(user,u);
+        return Result.success(u);
     }
-
     @PostMapping("/upUserInfo")
     public Result upUserInfo(@RequestBody UserInfoDto user) {
         return Result.success(userService.upUserInfo(user));
