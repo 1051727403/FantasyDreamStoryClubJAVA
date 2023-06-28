@@ -4,6 +4,7 @@ package com.FDSC.controller.dto;
 import lombok.Data;
 
 import java.lang.reflect.Type;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -37,7 +38,7 @@ public class FragmentDto {
         private long id;
         private String headImg;
         private String comment;
-        private String time;
+        private LocalDateTime time;
         private boolean inputShow;
         private List<ReplyDTO> reply;
 
@@ -50,7 +51,7 @@ public class FragmentDto {
             private String to;
             private long toId;
             private String comment;
-            private String time;
+            private LocalDateTime time;
             private boolean inputShow;
 
         }
