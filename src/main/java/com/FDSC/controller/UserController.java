@@ -7,7 +7,10 @@ import cn.hutool.poi.excel.ExcelWriter;
 import com.FDSC.common.Constants;
 import com.FDSC.common.Result;
 import com.FDSC.entity.User;
+import com.FDSC.exception.ServiceException;
 import com.FDSC.service.UserService;
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -33,7 +36,6 @@ import java.util.Map;
 public class UserController {
     @Autowired
     private UserService userService;
-
     //新增和修改
     @PostMapping("/register")
     public Result register(@RequestBody User user){
@@ -50,7 +52,6 @@ public class UserController {
         UserDTO userDTO=userService.register(user);
         return Result.success(userDTO);
     }
-
     /*
      * 登录接口
      * */
@@ -63,13 +64,11 @@ public class UserController {
         Map<String,Object>res = userService.login(username,password);
         return Result.success(res);
     }
-
     //新增和修改
     @PostMapping
     public Result save(@RequestBody User user){
         return Result.success(userService.saveUser(user));
     }
-
     @GetMapping("/page")
     public IPage<User> findPage(@RequestParam Integer pageNum,
                                 @RequestParam Integer pageSize,
@@ -96,7 +95,6 @@ public class UserController {
         System.out.println("=========================当前用户信息:"+currentUser.getNickname());
         return userService.page(page,queryWrapper);
     }
-
     /*
     * 导出功能，导出当前页面中load的对象
     * */
@@ -135,9 +133,7 @@ public class UserController {
         out.close();
         writer.close();
     }
-
     /*
-    *
     * excel导入接口
     * @prama
     * @throws Exception
@@ -150,8 +146,6 @@ public class UserController {
         //System.out.println(list);
         return userService.saveBatch(list);
     }
-
-
     @GetMapping("/getUserInfo")
     public Result getUserInfo(@RequestParam String userid) {
         User user= userService.getById(userid);
@@ -172,6 +166,21 @@ public class UserController {
     //没有任何用处，仅作为token校验
     @PostMapping("/token")
     public Result token(){return Result.success();}
+
+
+    @PostMapping("/checktoken")
+    public Result token(@RequestParam String userid,
+                        @RequestParam String token){
+        String userId = "";
+        try {
+            userId = JWT.decode(token).getAudience().get(0);
+            if(userId.equals(userid)) return Result.success("success");
+            else return Result.success("failure");
+        } catch (JWTDecodeException j) {
+            throw new ServiceException(Constants.CODE_401,"token验证失败！");
+        }
+
+    }
 
 
 

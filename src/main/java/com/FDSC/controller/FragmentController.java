@@ -14,12 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/fragment")
 public class FragmentController {
-
     @Autowired
     private FragmentService fragmentService;
-    @Autowired
-    private FragmentMapper fragmentMapper;
-
 
     /**
      * 获取故事信息
@@ -39,6 +35,11 @@ public class FragmentController {
     @GetMapping("/loadAuthorAndComment")
     public Result loadAuthorAndComment(@RequestParam long fragmentId){
         return fragmentService.loadAuthorAndComment(fragmentId);
+    }
+
+    @GetMapping("/getFageInfo")
+    public Result getFageInfo(@RequestParam String userid){
+        return fragmentService.getFageInfo(userid);
     }
 
 
