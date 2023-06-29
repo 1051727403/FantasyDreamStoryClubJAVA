@@ -55,11 +55,7 @@ public class StoryService extends ServiceImpl<StoryMapper, Story> {
 
     public Result usersStories(String userid) {
         try{
-            List<StoryItemDto> list =storyMapper.usersStories(userid);
-            for (StoryItemDto stoty :list){
-                /*stoty.setLink("/APP/StoryInfo/?storyid="+stoty.getStoryId());*/
-            }
-            return Result.success(list);
+            return Result.success(storyMapper.usersStories(userid));
         }
         catch (Exception e){
             return Result.error("403","获取失败");
