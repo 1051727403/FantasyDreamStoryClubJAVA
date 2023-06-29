@@ -3,7 +3,9 @@ package com.FDSC.service;
 import cn.hutool.core.lang.TypeReference;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
+import com.FDSC.common.Constants;
 import com.FDSC.common.Result;
+import com.FDSC.controller.dto.AddFragmentDto;
 import com.FDSC.controller.dto.FragmentDto;
 import com.FDSC.entity.Fragment;
 import com.FDSC.entity.Story;
@@ -12,11 +14,14 @@ import com.FDSC.mapper.StoryMapper;
 import com.FDSC.mapper.dto.FragmentMapperCommentDto;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.sun.xml.internal.ws.server.ServerRtException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
+import javax.swing.*;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -54,7 +59,7 @@ public class FragmentService extends ServiceImpl<FragmentMapper, Fragment> {
                 fragmentDto.setTotalCollection(node.getTotalCollection());
                 fragmentDto.setTotalComment(node.getTotalComment());
                 //设置空字段
-                fragmentDto.setAuthor(new FragmentDto.AuthorDTO());
+                fragmentDto.setAuthorInfo(new FragmentDto.AuthorDTO());
                 fragmentDto.setComments(new ArrayList<>());
                 fragmentDto.setChildren(new ArrayList<>());
             }else {
@@ -67,7 +72,7 @@ public class FragmentService extends ServiceImpl<FragmentMapper, Fragment> {
                 childDto.setTotalCollection(node.getTotalCollection());
                 childDto.setTotalComment(node.getTotalComment());
                 //设置空字段
-                childDto.setAuthor(new FragmentDto.AuthorDTO());
+                childDto.setAuthorInfo(new FragmentDto.AuthorDTO());
                 childDto.setComments(new ArrayList<>());
                 childDto.setChildren(new ArrayList<>());
                 nodeMap.put(node.getId(), childDto);
@@ -178,7 +183,7 @@ public class FragmentService extends ServiceImpl<FragmentMapper, Fragment> {
         //获取片段作者信息
         FragmentDto.AuthorDTO author=new FragmentDto.AuthorDTO();
         author=fragmentMapper.getFragmentAuthor(fragmentId);
-        res.put("author",author);
+        res.put("authorInfo",author);
         //获取评论
         List<FragmentDto.CommentDTO> comment=new ArrayList<>();
         //获取对应片段评论
@@ -190,4 +195,19 @@ public class FragmentService extends ServiceImpl<FragmentMapper, Fragment> {
     }
 
 
+    public Result addFragment(AddFragmentDto addFragmentDto) {
+        Fragment fragment=new Fragment();
+        fragment.setUserId(addFragmentDto.getUserId());
+        fragment.setStoryId(addFragmentDto.getStoryId());
+        fragment.setParentId(addFragmentDto.getParentId());
+        fragment.setFragmentName(addFragmentDto.getFragmentName());
+        fragment.setContent(addFragmentDto.getContent());
+        fragment.setAllowRelay(addFragmentDto.getAllowRelay());
+        try {
+            save(fragment);
+        }catch (Exception e){
+            throw new ServerRtException(Constants.CODE_500,"保存片段失败！");
+        }
+        return Result.success();
+    }
 }

@@ -46,10 +46,12 @@ public class User {
     @TableField(value = "is_admin")
     private Integer isAdmin;
 
-    @TableField(value = "create_time", fill = FieldFill.INSERT)
+    @Alias("创建时间")
+    @TableField(value = "create_time")
     private LocalDateTime createTime;
 
-    @TableField(value = "update_time", fill = FieldFill.INSERT_UPDATE)
+    @Alias("更新时间")
+    @TableField(value = "update_time")
     private LocalDateTime updateTime;
 
 

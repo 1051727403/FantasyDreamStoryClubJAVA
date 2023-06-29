@@ -13,7 +13,7 @@ public class FragmentDto {
     private String id;
     private long rootId;
     private String topic;
-    private AuthorDTO author;
+    private AuthorDTO authorInfo;
     private int allowRelay;
     private int isLike;
     private int isCollected;
@@ -63,7 +63,7 @@ public class FragmentDto {
     public static class ChildDto{
         private long id;
         private String topic;
-        private AuthorDTO author;
+        private AuthorDTO authorInfo;
         private int allowRelay;
         private int isLike;
         private int isCollected;

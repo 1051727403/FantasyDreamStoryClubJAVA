@@ -2,14 +2,15 @@ package com.FDSC.controller;
 
 
 import com.FDSC.common.Result;
+import com.FDSC.controller.dto.AddFragmentDto;
 import com.FDSC.entity.Fragment;
 import com.FDSC.mapper.FragmentMapper;
 import com.FDSC.service.FragmentService;
+import org.apache.xmlbeans.impl.xb.xsdschema.Public;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.security.PublicKey;
 
 @RestController
 @RequestMapping("/fragment")
@@ -36,12 +37,19 @@ public class FragmentController {
      * @param fragmentId
      * @return Result
      * */
-    @GetMapping("/loadAuthorAndComment")
+    @GetMapping("/loadauthorInfoAndComment")
     public Result loadAuthorAndComment(@RequestParam long fragmentId){
         return fragmentService.loadAuthorAndComment(fragmentId);
     }
-
-
+    /**
+     * 添加片段接龙
+     * @param addFragmentDto
+     * @return Result
+     * */
+    @PostMapping("/addFragment")
+    public Result addFragment(@RequestBody AddFragmentDto addFragmentDto){
+        return fragmentService.addFragment(addFragmentDto);
+    }
 
 
 

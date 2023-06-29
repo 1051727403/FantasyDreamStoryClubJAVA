@@ -25,10 +25,10 @@ public class Tag {
     private String tagName;
 
     @Alias("创建时间")
-    @TableField(value = "create_time", fill = FieldFill.INSERT)
+    @TableField(value = "create_time")
     private LocalDateTime createTime;
 
     @Alias("更新时间")
-    @TableField(value = "update_time", fill = FieldFill.INSERT_UPDATE)
+    @TableField(value = "update_time")
     private LocalDateTime updateTime;
 }
