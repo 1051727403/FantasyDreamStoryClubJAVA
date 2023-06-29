@@ -16,20 +16,18 @@ public class StoryController {
     @Autowired
     private StoryService storyService;
 
-    @GetMapping("/getstoryinfo")
+    @GetMapping("/getStoryInfo")
     public Result getstory(@RequestParam String storyid){
         return Result.success(storyService.getById(storyid));
     }
 
-    @GetMapping("/getstorytag")
+    @GetMapping("/getStoryTag")
     public Result getstorytag(@RequestParam String storyid){
         return Result.success(storyService.getstorytag(storyid));
     }
-
     @PostMapping("/collectestory")
     public Result collectestory(@RequestParam String storyid,
                                 @RequestParam String userid){
-
       return storyService.collectestory(storyid,userid);
     };
 
@@ -42,5 +40,8 @@ public class StoryController {
     public Result activityRecommend() {
         return storyService.activityRecommend();
     }
+
+    @GetMapping("/usersStories")
+    public Result usersStories(@RequestParam String userid){return storyService.usersStories(userid);};
 
 }

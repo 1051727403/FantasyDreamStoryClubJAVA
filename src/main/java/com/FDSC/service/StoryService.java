@@ -65,4 +65,17 @@ public class StoryService extends ServiceImpl<StoryMapper, Story> {
             return Result.error("403","获取失败");
         }
     }
+
+    public Result usersStories(String userid) {
+        try{
+            List<StoryItemDto> list =storyMapper.usersStories(userid);
+            for (StoryItemDto stoty :list){
+                stoty.setLink("/APP/StoryInfo/?storyid="+stoty.getStoryId());
+            }
+            return Result.success(list);
+        }
+        catch (Exception e){
+            return Result.error("403","获取失败");
+        }
+    }
 }

@@ -27,4 +27,7 @@ public interface StoryMapper extends BaseMapper<Story> {
 
     @Insert("Insert into story_collection(user_id,story_id) values(#{userid},#{storyid})")
     public boolean collected(String storyid, String userid);
+
+    @Select("Select id as storyId,total_like,total_collection,total_comment,story_name,cover_url from story where user_id=#{userid}")
+    List<StoryItemDto> usersStories(String userid);
 }
