@@ -41,6 +41,9 @@ public class StoryController {
         return storyService.slideShow();
     }
 
+    @GetMapping("/latestStory")
+    public Result latestStory() { return storyService.latestStory(); }
+
     @GetMapping("/usersStories")
     public Result usersStories(@RequestParam String userid){return storyService.usersStories(userid);}
 

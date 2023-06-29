@@ -12,21 +12,17 @@ import java.time.LocalDateTime;
 @Data
 public class StoryItemDto {
 
-    @TableField(value = "id")
     private Long storyId;
 
-    @TableField(value = "user_id")
     private Long userId;
-    @TableField(value = "total_like")
+
     private Integer totalLike;
-    @TableField(value = "total_collection")
+
     private Integer totalCollection;
-    @TableField(value = "total_comment")
+
     private Integer totalComment;
 
-    @TableField(value = "story_name")
     private String storyName;
 
-    @TableField(value = "cover_url")
     private String coverUrl;
 }
