@@ -14,7 +14,7 @@ import java.util.List;
 public interface FragmentMapper extends BaseMapper<Fragment> {
 
 
-    @Select("SELECT user.nickname,user.avatar_url AS avatarUrl,user.total_like as totalLike FROM fragment,user WHERE fragment.user_id=user.id and fragment.id=#{fragmentId};")
+    @Select("SELECT user.id as id,user.nickname,user.avatar_url AS avatarUrl,user.total_like as totalLike FROM fragment,user WHERE fragment.user_id=user.id and fragment.id=#{fragmentId};")
     FragmentDto.AuthorDTO getFragmentAuthor(long fragmentId);
 
 

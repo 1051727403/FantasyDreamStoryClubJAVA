@@ -48,6 +48,7 @@ public class FragmentService extends ServiceImpl<FragmentMapper, Fragment> {
                 fragmentDto.setId("root");
                 fragmentDto.setRootId(node.getId());
                 fragmentDto.setTopic(node.getFragmentName());
+                fragmentDto.setAllowRelay(node.getAllowRelay());
                 fragmentDto.setContent(node.getContent());
                 fragmentDto.setTotalLike(node.getTotalLike());
                 fragmentDto.setTotalCollection(node.getTotalCollection());
@@ -60,6 +61,7 @@ public class FragmentService extends ServiceImpl<FragmentMapper, Fragment> {
                 FragmentDto.ChildDto childDto=new FragmentDto.ChildDto();
                 childDto.setId(node.getId());
                 childDto.setTopic(node.getFragmentName());
+                childDto.setAllowRelay(node.getAllowRelay());
                 childDto.setContent(node.getContent());
                 childDto.setTotalLike(node.getTotalLike());
                 childDto.setTotalCollection(node.getTotalCollection());

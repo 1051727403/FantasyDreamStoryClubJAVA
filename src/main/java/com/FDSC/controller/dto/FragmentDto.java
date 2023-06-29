@@ -14,6 +14,7 @@ public class FragmentDto {
     private long rootId;
     private String topic;
     private AuthorDTO author;
+    private int allowRelay;
     private int isLike;
     private int isCollected;
     private int totalLike;
@@ -25,6 +26,7 @@ public class FragmentDto {
 
     @Data
     public static class AuthorDTO {
+        private Long id;
         private String nickname;
         private String avatarUrl;
         private int totalLike;
@@ -62,6 +64,7 @@ public class FragmentDto {
         private long id;
         private String topic;
         private AuthorDTO author;
+        private int allowRelay;
         private int isLike;
         private int isCollected;
         private int totalLike;
