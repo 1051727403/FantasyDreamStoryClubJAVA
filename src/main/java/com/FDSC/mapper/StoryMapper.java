@@ -1,9 +1,9 @@
 package com.FDSC.mapper;
 
-import com.FDSC.controller.dto.SlideRecommendDto;
+import com.FDSC.controller.dto.SlideShowDto;
 import com.FDSC.controller.dto.StoryItemDto;
+import com.FDSC.entity.Slideshow;
 import com.FDSC.entity.Story;
-import com.FDSC.entity.User;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;

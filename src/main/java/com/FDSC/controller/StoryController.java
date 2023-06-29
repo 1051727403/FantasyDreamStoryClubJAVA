@@ -36,9 +36,9 @@ public class StoryController {
         return storyService.recommend();
     }
 
-    @GetMapping("/activityRecommend")
-    public Result activityRecommend() {
-        return storyService.activityRecommend();
+    @GetMapping("/slideShow")
+    public Result slideShow() {
+        return storyService.slideShow();
     }
 
     @GetMapping("/usersStories")

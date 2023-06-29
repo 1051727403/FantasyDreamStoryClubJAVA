@@ -26,8 +26,7 @@ public class StoryItemDto {
 
     @TableField(value = "story_name")
     private String storyName;
+
     @TableField(value = "cover_url")
     private String coverUrl;
-
-    private String link;
 }

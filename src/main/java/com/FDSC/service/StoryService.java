@@ -2,22 +2,18 @@ package com.FDSC.service;
 
 
 import com.FDSC.common.Result;
-import com.FDSC.controller.dto.SlideRecommendDto;
+import com.FDSC.controller.dto.SlideShowDto;
 import com.FDSC.controller.dto.StoryItemDto;
 import com.FDSC.entity.Story;
-import com.FDSC.entity.User;
+import com.FDSC.mapper.AnnounceMapper;
 import com.FDSC.mapper.StoryMapper;
-import com.FDSC.mapper.UserMapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 
 @Service
@@ -26,6 +22,9 @@ public class StoryService extends ServiceImpl<StoryMapper, Story> {
 
     @Autowired
     private StoryMapper storyMapper;
+
+    @Autowired
+    private AnnounceMapper announceMapper;
 
     public List<String> getstorytag(String storyid){   return storyMapper.gettag(storyid);}
 
@@ -40,27 +39,15 @@ public class StoryService extends ServiceImpl<StoryMapper, Story> {
 
     public Result recommend() {
         try{
-            List<StoryItemDto> list = storyMapper.getAllStoryItem();
-            for (StoryItemDto item : list) {
-                item.setLink("/APP/StoryInfo/?storyid=" + item.getStoryId());
-            }
-            return Result.success(list);
+            return Result.success(storyMapper.getAllStoryItem());
         }catch (Exception e){
             return Result.error("403","获取失败");
         }
     }
 
-    public Result activityRecommend() {
+    public Result slideShow() {
         try{
-            List<Story> list = storyMapper.getAll();
-            List<SlideRecommendDto> slidelist = new ArrayList<>(list.size());
-            for (Story story : list) {
-                SlideRecommendDto temp = new SlideRecommendDto();
-                temp.setCoverUrl(story.getCoverUrl());
-                temp.setLink("/APP/StoryInfo/?storyid=" + story.getId());
-                slidelist.add(temp);
-            }
-            return Result.success(slidelist);
+            return Result.success(announceMapper.getSlideShow());
         }catch (Exception e){
             return Result.error("403","获取失败");
         }
@@ -70,7 +57,7 @@ public class StoryService extends ServiceImpl<StoryMapper, Story> {
         try{
             List<StoryItemDto> list =storyMapper.usersStories(userid);
             for (StoryItemDto stoty :list){
-                stoty.setLink("/APP/StoryInfo/?storyid="+stoty.getStoryId());
+                /*stoty.setLink("/APP/StoryInfo/?storyid="+stoty.getStoryId());*/
             }
             return Result.success(list);
         }
