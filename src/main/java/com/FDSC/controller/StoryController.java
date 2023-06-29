@@ -42,6 +42,10 @@ public class StoryController {
     }
 
     @GetMapping("/usersStories")
-    public Result usersStories(@RequestParam String userid){return storyService.usersStories(userid);};
+    public Result usersStories(@RequestParam String userid){return storyService.usersStories(userid);}
+
+    @GetMapping("/usersCollectStories")
+    public Result usersCollectStories(@RequestParam String userid){return storyService.usersCollectStories(userid);}
+
 
 }

@@ -78,4 +78,12 @@ public class StoryService extends ServiceImpl<StoryMapper, Story> {
             return Result.error("403","获取失败");
         }
     }
+
+    public Result usersCollectStories(String userid) {
+        try{
+            return Result.success(storyMapper.collectedStories(userid));
+        }catch (Exception e){
+            return Result.error("500","已收藏");
+        }
+    }
 }

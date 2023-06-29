@@ -30,4 +30,10 @@ public interface StoryMapper extends BaseMapper<Story> {
 
     @Select("Select id as storyId,total_like,total_collection,total_comment,story_name,cover_url from story where user_id=#{userid}")
     List<StoryItemDto> usersStories(String userid);
+
+    @Select("Select story.id as storyId,total_like,total_collection,total_comment,story_name,cover_url " +
+            "from story,story_collection " +
+            "where story.id=story_id " +
+            "and story_collection.user_id=#{userid}")
+    List<StoryItemDto>  collectedStories(String userid);
 }
