@@ -24,6 +24,14 @@ public class Announcement {
     @TableField(value = "content")
     private String content;
 
+    @Alias("是否是活动")
+    @TableField(value = "is_activity")
+    private Integer isActivity;
+
+    @Alias("封面")
+    @TableField(value = "cover_url")
+    private String coverUrl;
+
     @Alias("创建时间")
     @TableField(value = "create_time", fill = FieldFill.INSERT)
     private LocalDateTime createTime;
