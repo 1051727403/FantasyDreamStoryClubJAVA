@@ -6,6 +6,7 @@ import cn.hutool.json.JSONUtil;
 import com.FDSC.common.Constants;
 import com.FDSC.common.Result;
 import com.FDSC.controller.dto.AddFragmentDto;
+import com.FDSC.controller.dto.FragmentInfoDto;
 import com.FDSC.controller.dto.FragmentDto;
 import com.FDSC.entity.Fragment;
 import com.FDSC.entity.Story;
@@ -193,7 +194,14 @@ public class FragmentService extends ServiceImpl<FragmentMapper, Fragment> {
         res.put("comments",comment);
         return Result.success(res);
     }
-
+    public Result getFageInfo(String userid) {
+        try{
+            return Result.success(fragmentMapper.usersfage(userid));
+        }
+        catch (Exception e){
+            return Result.error(Constants.CODE_500,"获取失败");
+        }
+    }
 
     public Result addFragment(AddFragmentDto addFragmentDto) {
         Fragment fragment=new Fragment();

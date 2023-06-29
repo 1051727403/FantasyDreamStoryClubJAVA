@@ -20,8 +20,12 @@ public interface StoryMapper extends BaseMapper<Story> {
     @Select("Select id as story_id, user_id, total_like, total_collection, total_comment, story_name, cover_url from story")
     public List<StoryItemDto> getAllStoryItem();
 
-    @Select("SELECT id as story_id, story_name, update_time FROM story ORDER BY update_time DESC")
-    public List<StoryLatestTempDto> getlatestStory();
+    @Select("SELECT id as story_id, story_name, update_time FROM story ORDER BY update_time DESC LIMIT 20")
+    public List<StoryLatestTempDto> getLatestStory();
+
+    @Select("Select id as story_id, user_id, total_like, total_collection, total_comment, story_name, cover_url " +
+            "from story ORDER BY total_like DESC")
+    public List<StoryItemDto> getHotStory();
 
     @Select("Select tag_name from tag,story_tag where tag.id=tag_id and story_id=#{storyid}")
     public List<String> gettag(String storyid);

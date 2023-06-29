@@ -15,12 +15,8 @@ import java.security.PublicKey;
 @RestController
 @RequestMapping("/fragment")
 public class FragmentController {
-
     @Autowired
     private FragmentService fragmentService;
-    @Autowired
-    private FragmentMapper fragmentMapper;
-
 
     /**
      * 获取故事信息
@@ -49,6 +45,11 @@ public class FragmentController {
     @PostMapping("/addFragment")
     public Result addFragment(@RequestBody AddFragmentDto addFragmentDto){
         return fragmentService.addFragment(addFragmentDto);
+    }
+
+    @GetMapping("/getFageInfo")
+    public Result getFageInfo(@RequestParam String userid){
+        return fragmentService.getFageInfo(userid);
     }
 
 

@@ -1,5 +1,6 @@
 package com.FDSC.mapper;
 
+import com.FDSC.controller.dto.FragmentInfoDto;
 import com.FDSC.controller.dto.FragmentDto;
 import com.FDSC.entity.Fragment;
 import com.FDSC.entity.Story;
@@ -13,6 +14,14 @@ import java.util.List;
 @Mapper
 public interface FragmentMapper extends BaseMapper<Fragment> {
 
+
+    @Select("Select story_name as storyName,fragment.fragment_name as fragName," +
+            "fragment.total_like as totalLike,fragment.total_collection as totalCollection," +
+            "fragment.total_comment as totalComment,left(content,20) as content " +
+            " from fragment,story " +
+            " where fragment.story_id=story.id " +
+            " and fragment.user_id=#{userid}")
+    List<FragmentInfoDto> usersfage(String userid);
 
     @Select("SELECT user.id as id,user.nickname,user.avatar_url AS avatarUrl,user.total_like as totalLike FROM fragment,user WHERE fragment.user_id=user.id and fragment.id=#{fragmentId};")
     FragmentDto.AuthorDTO getFragmentAuthor(long fragmentId);
