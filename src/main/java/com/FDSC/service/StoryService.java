@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -43,7 +44,9 @@ public class StoryService extends ServiceImpl<StoryMapper, Story> {
 
     public Result recommend() {
         try{
-            return Result.success(storyMapper.getAllStoryItem());
+            List<StoryItemDto> list =  storyMapper.getAllStoryItem();
+            Collections.shuffle(list);
+            return Result.success(list.subList(0, Math.min(list.size(), 15)));
         }catch (Exception e){
             return Result.error("403","获取失败");
         }
@@ -63,7 +66,7 @@ public class StoryService extends ServiceImpl<StoryMapper, Story> {
 
         long seconds = duration.getSeconds();
         if (seconds < 60) {
-            return seconds + "秒前";
+            return "刚刚";
         }
 
         long minutes = duration.toMinutes();
@@ -92,7 +95,7 @@ public class StoryService extends ServiceImpl<StoryMapper, Story> {
 
     public Result latestStory() {
         try{
-            List<StoryLatestTempDto> list = storyMapper.getlatestStory();
+            List<StoryLatestTempDto> list = storyMapper.getLatestStory();
             List<StoryLatestDto> latests = new ArrayList<>(list.size());
             for (StoryLatestTempDto story : list) {
                 StoryLatestDto temp = new StoryLatestDto();
@@ -101,9 +104,16 @@ public class StoryService extends ServiceImpl<StoryMapper, Story> {
                 temp.setDeltaTime(deltaTime(story.getUpdateTime()));
                 latests.add(temp);
             }
-            System.out.println("-----------------");
-            System.out.println(latests);
-            return Result.success(latests);
+            return Result.success(latests.subList(0, Math.min(latests.size(), 20)));
+        }catch (Exception e){
+            return Result.error("403","获取失败");
+        }
+    }
+
+    public Result hotStory() {
+        try{
+            List<StoryItemDto> list = storyMapper.getHotStory();
+            return Result.success(list.subList(0, Math.min(list.size(), 7)));
         }catch (Exception e){
             return Result.error("403","获取失败");
         }
