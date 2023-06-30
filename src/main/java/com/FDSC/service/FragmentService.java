@@ -194,9 +194,9 @@ public class FragmentService extends ServiceImpl<FragmentMapper, Fragment> {
         res.put("comments",comment);
         return Result.success(res);
     }
-    public Result getFageInfo(String userid) {
+    public Result getFragInfo(String userid) {
         try{
-            return Result.success(fragmentMapper.usersfage(userid));
+            return Result.success(fragmentMapper.usersfrag(userid));
         }
         catch (Exception e){
             return Result.error(Constants.CODE_500,"获取失败");
@@ -218,4 +218,5 @@ public class FragmentService extends ServiceImpl<FragmentMapper, Fragment> {
         }
         return Result.success();
     }
+
 }

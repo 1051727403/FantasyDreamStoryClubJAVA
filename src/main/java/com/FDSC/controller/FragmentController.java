@@ -47,9 +47,9 @@ public class FragmentController {
         return fragmentService.addFragment(addFragmentDto);
     }
 
-    @GetMapping("/getFageInfo")
-    public Result getFageInfo(@RequestParam String userid){
-        return fragmentService.getFageInfo(userid);
+    @GetMapping("/getFragInfo")
+    public Result getFragInfo(@RequestParam String userid){
+        return fragmentService.getFragInfo(userid);
     }
 
 

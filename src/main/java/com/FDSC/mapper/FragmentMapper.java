@@ -21,7 +21,7 @@ public interface FragmentMapper extends BaseMapper<Fragment> {
             " from fragment,story " +
             " where fragment.story_id=story.id " +
             " and fragment.user_id=#{userid}")
-    List<FragmentInfoDto> usersfage(String userid);
+    List<FragmentInfoDto> usersfrag(String userid);
 
     @Select("SELECT user.id as id,user.nickname,user.avatar_url AS avatarUrl,user.total_like as totalLike FROM fragment,user WHERE fragment.user_id=user.id and fragment.id=#{fragmentId};")
     FragmentDto.AuthorDTO getFragmentAuthor(long fragmentId);

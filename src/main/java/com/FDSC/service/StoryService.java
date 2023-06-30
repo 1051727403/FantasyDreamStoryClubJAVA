@@ -1,6 +1,7 @@
 package com.FDSC.service;
 
 
+import com.FDSC.common.Constants;
 import com.FDSC.common.Result;
 import java.time.Duration;
 import com.FDSC.controller.dto.SlideShowDto;
@@ -31,14 +32,22 @@ public class StoryService extends ServiceImpl<StoryMapper, Story> {
     @Autowired
     private AnnounceMapper announceMapper;
 
-    public List<String> getstorytag(String storyid){   return storyMapper.gettag(storyid);}
+    public List<String> getStoryTag(String storyid){   return storyMapper.gettag(storyid);}
 
 
-    public Result collectestory(String storyid, String userid) {
+    public Result collecteStory(String storyid, String userid) {
         try{
             return Result.success(storyMapper.collected(storyid,userid));
         }catch (Exception e){
-            return Result.error("500","已收藏");
+            return Result.error(Constants.CODE_500,"已收藏");
+        }
+    }
+
+    public Result uncollecteStory(String storyid, String userid) {
+        try{
+            return Result.success(storyMapper.uncollected(storyid,userid));
+        }catch (Exception e){
+            return Result.error(Constants.CODE_500,"取消收藏失败");
         }
     }
 
@@ -135,4 +144,5 @@ public class StoryService extends ServiceImpl<StoryMapper, Story> {
             return Result.error("500","已收藏");
         }
     }
+
 }

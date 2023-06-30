@@ -17,19 +17,25 @@ public class StoryController {
     private StoryService storyService;
 
     @GetMapping("/getStoryInfo")
-    public Result getstory(@RequestParam String storyid){
+    public Result getStory(@RequestParam String storyid){
         return Result.success(storyService.getById(storyid));
     }
 
     @GetMapping("/getStoryTag")
-    public Result getstorytag(@RequestParam String storyid){
-        return Result.success(storyService.getstorytag(storyid));
+    public Result getStoryTag(@RequestParam String storyid){
+        return Result.success(storyService.getStoryTag(storyid));
     }
-    @PostMapping("/collectestory")
-    public Result collectestory(@RequestParam String storyid,
+    @PostMapping("/collecteStory")
+    public Result collecteStory(@RequestParam String storyid,
                                 @RequestParam String userid){
-      return storyService.collectestory(storyid,userid);
+      return storyService.collecteStory(storyid,userid);
     };
+
+    @PostMapping("uncollectStory")
+    public Result uncollectStory(@RequestParam String storyid,
+                                 @RequestParam String userid){
+        return storyService.uncollecteStory(storyid,userid);
+    }
 
     @GetMapping("/recommendStory")
     public Result recommendStory() {
@@ -52,6 +58,8 @@ public class StoryController {
 
     @GetMapping("/usersCollectStories")
     public Result usersCollectStories(@RequestParam String userid){return storyService.usersCollectStories(userid);}
+
+
 
 
 }

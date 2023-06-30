@@ -4,6 +4,7 @@ import com.FDSC.controller.dto.StoryItemDto;
 import com.FDSC.entity.Story;
 import com.FDSC.mapper.dto.StoryLatestTempDto;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -33,6 +34,8 @@ public interface StoryMapper extends BaseMapper<Story> {
     @Insert("Insert into story_collection(user_id,story_id) values(#{userid},#{storyid})")
     public boolean collected(String storyid, String userid);
 
+    @Delete("Delete from story_collection where story_id=#{storyid} and user_id=#{userid}")
+    boolean uncollected(String storyid, String userid);
     @Select("Select id as storyId,total_like,total_collection,total_comment,story_name,cover_url from story where user_id=#{userid}")
     List<StoryItemDto> usersStories(String userid);
 
@@ -41,4 +44,6 @@ public interface StoryMapper extends BaseMapper<Story> {
             "where story.id=story_id " +
             "and story_collection.user_id=#{userid}")
     List<StoryItemDto>  collectedStories(String userid);
+
+
 }
