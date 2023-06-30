@@ -9,11 +9,16 @@ import com.FDSC.controller.dto.AddFragmentDto;
 import com.FDSC.controller.dto.FragmentInfoDto;
 import com.FDSC.controller.dto.FragmentDto;
 import com.FDSC.entity.Fragment;
+import com.FDSC.entity.FragmentLikeCollection;
 import com.FDSC.entity.Story;
+import com.FDSC.mapper.FragmentLikeCollectionMapper;
 import com.FDSC.mapper.FragmentMapper;
 import com.FDSC.mapper.StoryMapper;
 import com.FDSC.mapper.dto.FragmentMapperCommentDto;
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.injector.methods.SelectList;
+import com.baomidou.mybatisplus.core.injector.methods.SelectOne;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.sun.xml.internal.ws.server.ServerRtException;
 import lombok.extern.slf4j.Slf4j;
@@ -40,6 +45,9 @@ public class FragmentService extends ServiceImpl<FragmentMapper, Fragment> {
     //导入redis
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
+
+    @Autowired
+    private FragmentLikeCollectionMapper fragmentLikeCollectionMapper;
 
     public String STORY_KEY="STORY_ID";
 
@@ -180,7 +188,7 @@ public class FragmentService extends ServiceImpl<FragmentMapper, Fragment> {
         return result;
     }
     //获取片段作者信息
-    public Result loadAuthorAndComment(long fragmentId) {
+    public Result loadAuthorAndComment(long fragmentId,long userId) {
         Map<String,Object>res=new HashMap<>();
         //获取片段作者信息
         FragmentDto.AuthorDTO author=new FragmentDto.AuthorDTO();
@@ -193,6 +201,21 @@ public class FragmentService extends ServiceImpl<FragmentMapper, Fragment> {
         //转换格式
         comment=listToComment(fragmentMapperCommentDtoList);
         res.put("comments",comment);
+        //获取是否点赞和收藏
+        Integer isLike;
+        Integer isCollected;
+        QueryWrapper<FragmentLikeCollection>wrapper=new QueryWrapper<>();
+        wrapper.eq("user_id",userId);
+        wrapper.eq("fragment_id",fragmentId);
+        FragmentLikeCollection fragmentLikeCollection= fragmentLikeCollectionMapper.selectOne(wrapper);
+        if(fragmentLikeCollection==null){
+            isLike=isCollected=0;
+        }else{
+            isLike=fragmentLikeCollection.getIsLike();
+            isCollected=fragmentLikeCollection.getIsCollection();
+        }
+        res.put("isLike",isLike);
+        res.put("isCollected",isCollected);
         return Result.success(res);
     }
     public Result getFragInfo(String userid) {
@@ -234,4 +257,57 @@ public class FragmentService extends ServiceImpl<FragmentMapper, Fragment> {
 
     }
 
+    //点赞还是取消点赞
+    public Result changeLike(Long userId, Long fragmentId,boolean beLike) {
+            //是否存在点赞信息
+            QueryWrapper<FragmentLikeCollection>wrapper=new QueryWrapper<>();
+            wrapper.eq("user_id",userId);
+            wrapper.eq("fragment_id",fragmentId);
+            FragmentLikeCollection fragmentLikeCollection= fragmentLikeCollectionMapper.selectOne(wrapper);
+            if(fragmentLikeCollection!=null){
+                //找到则更新
+                try {
+                    fragmentLikeCollectionMapper.changeLike(userId,fragmentId,beLike?1:0);
+                }catch (Exception e){
+                    throw new ServerRtException(Constants.CODE_500,"更新失败！");
+                }
+            }else{
+                //未找到则插入
+                try {
+                    fragmentLikeCollectionMapper.insertone(userId,fragmentId,beLike?1:0);
+                }catch (Exception e){
+                    throw new ServerRtException(Constants.CODE_500,"插入失败！");
+                }
+            }
+
+            return Result.success();
+    }
+    //收藏还是取消收藏
+    public Result changeCollection(Long userId, Long fragmentId, boolean beCollection) {
+        //是否存在收藏信息
+        QueryWrapper<FragmentLikeCollection>wrapper=new QueryWrapper<>();
+        wrapper.eq("user_id",userId);
+        wrapper.eq("fragment_id",fragmentId);
+        FragmentLikeCollection fragmentLikeCollection= fragmentLikeCollectionMapper.selectOne(wrapper);
+        if(fragmentLikeCollection!=null){
+            //找到则更新
+            try {
+                fragmentLikeCollectionMapper.changeCollection(userId,fragmentId,beCollection?1:0);
+            }catch (Exception e){
+                throw new ServerRtException(Constants.CODE_500,"更新失败！");
+            }
+        }else{
+            //未找到则插入
+            try {
+                fragmentLikeCollectionMapper.insertone(userId,fragmentId,beCollection?1:0);
+            }catch (Exception e){
+                throw new ServerRtException(Constants.CODE_500,"插入失败！");
+            }
+        }
+
+        return Result.success();
+
+
+
+    }
 }

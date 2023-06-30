@@ -30,13 +30,14 @@ public class FragmentController {
     }
 
     /**
-     * 获取评论区和作者信息
+     * 获取评论区和作者信息以及是否点赞收藏的信息
      * @param fragmentId
      * @return Result
      * */
     @GetMapping("/loadauthorInfoAndComment")
-    public Result loadAuthorAndComment(@RequestParam long fragmentId){
-        return fragmentService.loadAuthorAndComment(fragmentId);
+    public Result loadAuthorAndComment(@RequestParam long fragmentId,
+                                       @RequestParam long userId){
+        return fragmentService.loadAuthorAndComment(fragmentId,userId);
     }
     /**
      * 添加片段接龙
@@ -57,7 +58,29 @@ public class FragmentController {
         return fragmentService.deleteFragment(fragmentId);
     }
 
+    /**
+     * 片段点赞以及取消点赞
+     * @param userId,fragmentId,beLike
+     * @return Result
+     * */
+    @GetMapping("/changeLike")
+    public Result changeLike(@RequestParam Long userId,
+                             @RequestParam Long fragmentId,
+                             @RequestParam boolean beLike){
+        return fragmentService.changeLike(userId,fragmentId,beLike);
+    }
 
+    /**
+     * 片段收藏以及取消收藏
+     * @param userId,fragmentId,beCollection
+     * @return Result
+     * */
+    @GetMapping("/changeCollection")
+    public Result changeCollection(@RequestParam Long userId,
+                             @RequestParam Long fragmentId,
+                             @RequestParam boolean beCollection){
+        return fragmentService.changeCollection(userId,fragmentId,beCollection);
+    }
 
     @GetMapping("/getFragInfo")
     public Result getFragInfo(@RequestParam String userid){
