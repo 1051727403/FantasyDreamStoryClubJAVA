@@ -24,6 +24,7 @@ import org.springframework.stereotype.Service;
 
 import javax.swing.*;
 import java.lang.reflect.Type;
+import java.rmi.ServerRuntimeException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -213,10 +214,24 @@ public class FragmentService extends ServiceImpl<FragmentMapper, Fragment> {
         fragment.setAllowRelay(addFragmentDto.getAllowRelay());
         try {
             save(fragment);
+            return Result.success(fragment);
         }catch (Exception e){
             throw new ServerRtException(Constants.CODE_500,"保存片段失败！");
         }
-        return Result.success();
+//        return Result.success();
+    }
+
+
+    //删除片段
+    public Result deleteFragment(Long fragmentId) {
+        try {
+            fragmentMapper.deleteById(fragmentId);
+            return Result.success();
+        }catch (Exception e){
+            throw new ServerRtException(Constants.CODE_500,"删除失败！");
+        }
+
+
     }
 
 }
