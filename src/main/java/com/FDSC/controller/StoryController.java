@@ -56,8 +56,32 @@ public class StoryController {
     @GetMapping("/usersStories")
     public Result usersStories(@RequestParam String userid){return storyService.usersStories(userid);}
 
+    @GetMapping("/usersStoriesWithFragment")
+    public Result usersStoriesWithFragment(@RequestParam String userid){return storyService.StoriesWithFragment(userid);}
+
     @GetMapping("/usersCollectStories")
     public Result usersCollectStories(@RequestParam String userid){return storyService.usersCollectStories(userid);}
+
+    @PostMapping("/saveStory")
+    public Result saveStory(@RequestParam String userid,
+                            @RequestParam String storyName,
+                            @RequestParam String introduce,
+                            @RequestParam String coverUrl){
+        try{
+            Story story = new Story();
+            story.setStoryName(storyName);
+            story.setUserId(Long.valueOf(userid));
+            story.setIntroduce(introduce);
+            story.setCoverUrl(coverUrl);
+            storyService.save(story);
+            return Result.success(story.getId());
+        }catch (Exception e){
+            return Result.error(Constants.CODE_500,"数据缺失");
+        }
+
+    }
+
+
 
 
 

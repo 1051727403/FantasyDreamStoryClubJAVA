@@ -45,5 +45,9 @@ public interface StoryMapper extends BaseMapper<Story> {
             "and story_collection.user_id=#{userid}")
     List<StoryItemDto>  collectedStories(String userid);
 
-
+    @Select("Select distinct story.id as storyId,story.total_like,story.total_collection,story.total_comment,story_name,cover_url " +
+            " from story,fragment " +
+            " where story.user_id=#{userid} " +
+            " or fragment.user_id=#{userid} and fragment.story_id=story.id")
+    List<StoryItemDto> StoriessWithFragment(String userid);
 }

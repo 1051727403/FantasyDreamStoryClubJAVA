@@ -133,7 +133,7 @@ public class StoryService extends ServiceImpl<StoryMapper, Story> {
             return Result.success(storyMapper.usersStories(userid));
         }
         catch (Exception e){
-            return Result.error("403","获取失败");
+            return Result.error(Constants.CODE_500,"获取失败");
         }
     }
 
@@ -141,8 +141,17 @@ public class StoryService extends ServiceImpl<StoryMapper, Story> {
         try{
             return Result.success(storyMapper.collectedStories(userid));
         }catch (Exception e){
-            return Result.error("500","已收藏");
+            return Result.error(Constants.CODE_500,"已收藏");
         }
     }
 
+    public Result StoriesWithFragment(String userid) {
+
+            try{
+                return Result.success(storyMapper.StoriessWithFragment(userid));
+            }
+        catch (Exception e){
+            return Result.error(Constants.CODE_500,"获取失败4");
+        }
+    }
 }

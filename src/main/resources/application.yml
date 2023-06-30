@@ -11,6 +11,11 @@ spring:
   redis:
     host: 127.0.0.1
     port: 6379
+  web:
+    resources:
+      static-locations: file:D://image//
+  mvc:
+    static-path-pattern: /image/**
 #扫描所有mybatis的xml文件
 mybatis:
   mapper-locations: classpath:mapper/*.xml
