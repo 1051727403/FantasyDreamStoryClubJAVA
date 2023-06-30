@@ -3,7 +3,10 @@ package com.FDSC.mapper;
 import com.FDSC.controller.dto.StoryItemDto;
 import com.FDSC.entity.Story;
 import com.FDSC.mapper.dto.StoryLatestTempDto;
+import com.FDSC.mapper.dto.StoryTempDto;
+import com.FDSC.utils.SqlProvider;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
@@ -11,12 +14,14 @@ import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
-
 @Mapper
 public interface StoryMapper extends BaseMapper<Story> {
 
     @Select("Select * from story")
     public List<Story> getAll();
+
+    @SelectProvider(type = SqlProvider.class, method = "search")
+    public List<StoryTempDto> search(@Param("tagId") Long tagId, @Param("sort") String sort);
 
     @Select("Select id as story_id, user_id, total_like, total_collection, total_comment, story_name, cover_url from story")
     public List<StoryItemDto> getAllStoryItem();
@@ -51,3 +56,4 @@ public interface StoryMapper extends BaseMapper<Story> {
             " or fragment.user_id=#{userid} and fragment.story_id=story.id")
     List<StoryItemDto> StoriessWithFragment(String userid);
 }
+
