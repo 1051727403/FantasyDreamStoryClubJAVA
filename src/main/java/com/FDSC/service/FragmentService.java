@@ -43,8 +43,8 @@ public class FragmentService extends ServiceImpl<FragmentMapper, Fragment> {
     private FragmentMapper fragmentMapper;
 
     //导入redis
-    @Autowired
-    private StringRedisTemplate stringRedisTemplate;
+//    @Autowired
+//    private StringRedisTemplate stringRedisTemplate;
 
     @Autowired
     private FragmentLikeCollectionMapper fragmentLikeCollectionMapper;
@@ -117,7 +117,8 @@ public class FragmentService extends ServiceImpl<FragmentMapper, Fragment> {
         Map<String,Object>res=new HashMap<>();
         //先检查redis中是否存在数据
         String STORY_KEY_ID=STORY_KEY+Long.toString(storyId);
-        String jsonStr = stringRedisTemplate.opsForValue().get(STORY_KEY_ID);
+//        String jsonStr = stringRedisTemplate.opsForValue().get(STORY_KEY_ID);
+        String jsonStr=null;
         FragmentDto fragmentDto=new FragmentDto();
         if (StrUtil.isBlank(jsonStr)){
             //若为空，则去数据库中查询
@@ -132,8 +133,8 @@ public class FragmentService extends ServiceImpl<FragmentMapper, Fragment> {
 
         }else{
             //直接从redis中取出数据
-            fragmentDto=JSONUtil.toBean(jsonStr, new TypeReference<FragmentDto>() {
-            }, true);
+//            fragmentDto=JSONUtil.toBean(jsonStr, new TypeReference<FragmentDto>() {
+//            }, true);
 
         }
         res.put("data",fragmentDto);
