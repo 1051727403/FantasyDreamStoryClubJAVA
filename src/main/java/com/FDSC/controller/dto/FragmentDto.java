@@ -46,6 +46,7 @@ public class FragmentDto {
         private String headImg;
         private String comment;
         private LocalDateTime time;
+        private Long topicId;
         private boolean inputShow;
         private List<ReplyDTO> reply;
 
