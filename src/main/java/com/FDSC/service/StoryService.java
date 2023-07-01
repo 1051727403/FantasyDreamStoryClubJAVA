@@ -35,9 +35,7 @@ public class StoryService extends ServiceImpl<StoryMapper, Story> {
     public List<String> getStoryTag(String storyid){   return storyMapper.gettag(storyid);}
 
     public void setStoryTag(Long storyid,List<Integer> tags){
-        for(Integer tagid : tags){
-            storyMapper.settag(storyid,tagid);
-        }
+        storyMapper.settag(storyid,tags);
     }
 
 

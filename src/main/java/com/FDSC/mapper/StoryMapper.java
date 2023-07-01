@@ -57,7 +57,7 @@ public interface StoryMapper extends BaseMapper<Story> {
             " or fragment.user_id=#{userid} and fragment.story_id=story.id")
     List<StoryItemDto> StoriessWithFragment(String userid);
 
-    @Insert("Insert story_tag(story_id,tag_id) values (#{storyid},#{tagid})")
-    boolean settag(Long storyid, Integer tagid);
+    //@Insert("Insert story_tag(story_id,tag_id) values (#{storyid},#{tagid})")
+    boolean settag(Long storyid, List<Integer> tags);
 }
 
