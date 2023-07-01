@@ -4,6 +4,7 @@ import com.FDSC.controller.dto.FragmentInfoDto;
 import com.FDSC.controller.dto.FragmentDto;
 import com.FDSC.entity.Fragment;
 import com.FDSC.entity.Story;
+import com.FDSC.mapper.dto.FragmentAndUserInfo;
 import com.FDSC.mapper.dto.FragmentMapperCommentDto;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
@@ -31,4 +32,30 @@ public interface FragmentMapper extends BaseMapper<Fragment> {
                    "FROM fragment_comment as fc,user " +
                    "WHERE fc.fragment_id=#{fragmentId} AND user.id=fc.user_id")
     List<FragmentMapperCommentDto> getFragmentComments(long fragmentId);
+
+    @Select("select * from fragment where parent_id=#{id}")
+    List<Fragment> getchildren(Long id);
+
+
+    @Select("SELECT\n" +
+            "    fragment.id,\n" +
+            "    fragment.story_id,\n" +
+            "    fragment.parent_id,\n" +
+            "    fragment.fragment_name,\n" +
+            "    fragment.content,\n" +
+            "    fragment.allow_relay,\n" +
+            "    fragment.total_like,\n" +
+            "    fragment.total_collection,\n" +
+            "    fragment.total_comment,\n" +
+            "    user.id AS user_id,\n" +
+            "    user.nickname,\n" +
+            "    user.avatar_url,\n" +
+            "    user.total_like AS author_total_like\n" +
+            "FROM\n" +
+            "    fragment\n" +
+            "JOIN\n" +
+            "    user ON fragment.user_id = user.id\n" +
+            "WHERE\n" +
+            "    fragment.story_id = #{storyId};")
+    List<FragmentAndUserInfo> selectByStoryId(long storyId);
 }

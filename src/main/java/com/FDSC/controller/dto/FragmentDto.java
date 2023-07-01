@@ -1,7 +1,10 @@
 package com.FDSC.controller.dto;
 
 
+import com.sun.tracing.dtrace.ArgsAttributes;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.lang.reflect.Type;
 import java.time.LocalDateTime;
@@ -25,6 +28,8 @@ public class FragmentDto {
     private List<ChildDto> children;
 
     @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
     public static class AuthorDTO {
         private Long id;
         private String nickname;

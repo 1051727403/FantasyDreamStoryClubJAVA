@@ -15,6 +15,7 @@ import com.FDSC.entity.Story;
 import com.FDSC.mapper.FragmentLikeCollectionMapper;
 import com.FDSC.mapper.FragmentMapper;
 import com.FDSC.mapper.StoryMapper;
+import com.FDSC.mapper.dto.FragmentAndUserInfo;
 import com.FDSC.mapper.dto.FragmentMapperCommentDto;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -53,12 +54,12 @@ public class FragmentService extends ServiceImpl<FragmentMapper, Fragment> {
     public String STORY_KEY="STORY_ID";
 
 
-    public FragmentDto fragmentToFragmentDto(List<Fragment> fragments){
+    public FragmentDto fragmentToFragmentDto(List<FragmentAndUserInfo> fragmentAndUserInfoList){
         //根节点，同时也是返回数据的类型
         FragmentDto fragmentDto=new FragmentDto();
         Map<Long, FragmentDto.ChildDto> nodeMap=new HashMap<>();
         //创建节点映射表
-        for(Fragment node:fragments){
+        for(FragmentAndUserInfo node:fragmentAndUserInfoList){
             if(node.getParentId()==0){
                 //若为根节点
                 fragmentDto.setId("root");
@@ -70,7 +71,7 @@ public class FragmentService extends ServiceImpl<FragmentMapper, Fragment> {
                 fragmentDto.setTotalCollection(node.getTotalCollection());
                 fragmentDto.setTotalComment(node.getTotalComment());
                 //设置空字段
-                fragmentDto.setAuthorInfo(new FragmentDto.AuthorDTO());
+                fragmentDto.setAuthorInfo(new FragmentDto.AuthorDTO(node.getUserId(),node.getNickname(),node.getAvatarUrl(),node.getAuthorTotalLike()));
                 fragmentDto.setComments(new ArrayList<>());
                 fragmentDto.setChildren(new ArrayList<>());
             }else {
@@ -83,14 +84,14 @@ public class FragmentService extends ServiceImpl<FragmentMapper, Fragment> {
                 childDto.setTotalCollection(node.getTotalCollection());
                 childDto.setTotalComment(node.getTotalComment());
                 //设置空字段
-                childDto.setAuthorInfo(new FragmentDto.AuthorDTO());
+                childDto.setAuthorInfo(new FragmentDto.AuthorDTO(node.getUserId(),node.getNickname(),node.getAvatarUrl(),node.getAuthorTotalLike()));
                 childDto.setComments(new ArrayList<>());
                 childDto.setChildren(new ArrayList<>());
                 nodeMap.put(node.getId(), childDto);
             }
         }
 
-        for(Fragment node:fragments) {
+        for(FragmentAndUserInfo node:fragmentAndUserInfoList) {
             if(node.getParentId()==0){
                 //根节点
 
@@ -123,11 +124,9 @@ public class FragmentService extends ServiceImpl<FragmentMapper, Fragment> {
         FragmentDto fragmentDto=new FragmentDto();
         if (StrUtil.isBlank(jsonStr)){
             //若为空，则去数据库中查询
-            QueryWrapper<Fragment> wrapper = new QueryWrapper<>();
-            wrapper.eq("story_id" , storyId);
-            List<Fragment> fragments = fragmentMapper.selectList(wrapper);
+            List<FragmentAndUserInfo> fragmentAndUserInfoList = fragmentMapper.selectByStoryId(storyId);
             //转换格式
-            fragmentDto=fragmentToFragmentDto(fragments);
+            fragmentDto=fragmentToFragmentDto(fragmentAndUserInfoList);
             System.out.println("-------------------------"+fragmentDto);
             //缓存到redis
             //stringRedisTemplate.opsForValue().set(STORY_KEY_ID, JSONUtil.toJsonStr(fragmentDto));
@@ -237,11 +236,19 @@ public class FragmentService extends ServiceImpl<FragmentMapper, Fragment> {
         fragment.setFragmentName(addFragmentDto.getFragmentName());
         fragment.setContent(addFragmentDto.getContent());
         fragment.setAllowRelay(addFragmentDto.getAllowRelay());
-        try {
-            save(fragment);
-            return Result.success(fragment);
-        }catch (Exception e){
-            throw new ServerRtException(Constants.CODE_500,"保存片段失败！");
+        //检测是否允许接龙
+        //TODO
+        //获取父节点的allowrelay字段进行判断
+        Fragment parent=fragmentMapper.selectById(addFragmentDto.getParentId());
+        if(parent.getAllowRelay()==0&&parent.getUserId()!=addFragmentDto.getUserId()){
+            throw new ServerRtException(Constants.CODE_500,"该片段不可接龙，请刷新！");
+        }else {
+            try {
+                save(fragment);
+                return Result.success(fragment);
+            } catch (Exception e) {
+                throw new ServerRtException(Constants.CODE_500, "保存片段失败！");
+            }
         }
 //        return Result.success();
     }
@@ -324,6 +331,18 @@ public class FragmentService extends ServiceImpl<FragmentMapper, Fragment> {
         fragment.setFragmentName(updateFragmentDto.getFragmentName());
         fragment.setContent(updateFragmentDto.getContent());
         fragment.setAllowRelay(updateFragmentDto.getAllowRelay());
+//        //验证是否可修改接龙状态
+//        //TODO
+//        if (fragment.getAllowRelay()==0){
+//            //若修改为不可接龙，则需要判断子节点是否有其他人接龙
+//            List<Fragment>fragmentChildrenList=fragmentMapper.getchildren(fragment.getId());
+//            for(Integer i =0;i<fragmentChildrenList.size();i++){
+//                if(fragmentChildrenList.get(i).getUserId()!=fragment.getUserId()){
+//                    throw new ServerRtException(Constants.CODE_500,"存在他人接龙，更新片段失败！");
+//                }
+//            }
+//        }
+
         try {
             fragmentMapper.updateById(fragment);
             return Result.success(fragment);
