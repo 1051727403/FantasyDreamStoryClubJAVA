@@ -6,10 +6,13 @@ import com.FDSC.controller.dto.TagDto;
 import com.FDSC.mapper.StoryMapper;
 import com.FDSC.mapper.TagMapper;
 import com.FDSC.mapper.dto.StoryTempDto;
+import com.FDSC.utils.SqlProvider;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.security.Provider;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -39,10 +42,12 @@ public class SearchService {
         return dtf2.format(time);
     }
 
-    public Result search(Long tag, String sort) {
+    @Transactional
+    public Result search(Long tag, String sort, Integer page) {
         try{
             System.out.println(tag);
             System.out.println(sort);
+            System.out.println(page);
 
             if (Objects.equals(sort, "date")) sort = "update_time";
             else if (Objects.equals(sort, "liked")) sort = "total_like";
@@ -52,18 +57,21 @@ public class SearchService {
             System.out.println(tag);
             System.out.println(sort);
 
-            List<StoryTempDto> list = storyMapper.search(tag, sort);
+            SqlProvider t = new SqlProvider();
+            System.out.println(t.search(tag, sort, page));
+
+            List<StoryTempDto> list = storyMapper.search(tag, sort, page);
             List<StoryDto> stories = new ArrayList<>(list.size());
             Long currentId = (long) -1;
             List<TagDto> currentTagList = null;
 
             for (StoryTempDto item : list) {
-                if (!Objects.equals(item.getId(), currentId)) {
-                    currentId = item.getId();
+                if (!Objects.equals(item.getStoryId(), currentId)) {
+                    currentId = item.getStoryId();
                     currentTagList = new ArrayList<>();
 
                     StoryDto temp = new StoryDto();
-                    temp.setStoryId(item.getId());
+                    temp.setStoryId(item.getStoryId());
                     temp.setUserId(item.getUserId());
                     temp.setTotalLike(item.getTotalLike());
                     temp.setTotalCollection(item.getTotalCollection());

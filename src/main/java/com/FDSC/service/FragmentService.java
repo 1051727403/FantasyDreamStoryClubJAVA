@@ -32,6 +32,7 @@ import org.springframework.stereotype.Service;
 import javax.swing.*;
 import java.lang.reflect.Type;
 import java.rmi.ServerRuntimeException;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -43,6 +44,9 @@ public class FragmentService extends ServiceImpl<FragmentMapper, Fragment> {
 
     @Autowired
     private FragmentMapper fragmentMapper;
+
+    @Autowired
+    private StoryMapper storyMapper;
 
     //导入redis
 //    @Autowired
@@ -122,6 +126,7 @@ public class FragmentService extends ServiceImpl<FragmentMapper, Fragment> {
 //        String jsonStr = stringRedisTemplate.opsForValue().get(STORY_KEY_ID);
         String jsonStr=null;
         FragmentDto fragmentDto=new FragmentDto();
+        String storyName="";
         if (StrUtil.isBlank(jsonStr)){
             //若为空，则去数据库中查询
             List<FragmentAndUserInfo> fragmentAndUserInfoList = fragmentMapper.selectByStoryId(storyId);
@@ -130,7 +135,7 @@ public class FragmentService extends ServiceImpl<FragmentMapper, Fragment> {
             System.out.println("-------------------------"+fragmentDto);
             //缓存到redis
             //stringRedisTemplate.opsForValue().set(STORY_KEY_ID, JSONUtil.toJsonStr(fragmentDto));
-
+            storyName=storyMapper.selectById(storyId).getStoryName();
         }else{
             //直接从redis中取出数据
 //            fragmentDto=JSONUtil.toBean(jsonStr, new TypeReference<FragmentDto>() {
@@ -138,6 +143,7 @@ public class FragmentService extends ServiceImpl<FragmentMapper, Fragment> {
 
         }
         res.put("data",fragmentDto);
+        res.put("storyName",storyName);
         return Result.success(res);
 
     }
@@ -157,6 +163,7 @@ public class FragmentService extends ServiceImpl<FragmentMapper, Fragment> {
                 commentDTO.setComment(comment.getContent());
                 commentDTO.setTime(comment.getTime());
                 commentDTO.setInputShow(false);
+                commentDTO.setTopicId(comment.getTopicId());
                 commentDTO.setReply(new ArrayList<>());
                 result.add(commentDTO);
                 topicMap.put(comment.getFromId(),commentDTO);
@@ -217,6 +224,14 @@ public class FragmentService extends ServiceImpl<FragmentMapper, Fragment> {
         }
         res.put("isLike",isLike);
         res.put("isCollected",isCollected);
+        //获取评论数
+        Integer totalComment;
+        try {
+            totalComment=fragmentMapper.selectById(fragmentId).getTotalComment();
+        }catch (Exception e){
+            throw new ServerRtException(Constants.CODE_500,"评论数获取失败！");
+        }
+        res.put("totalComment",totalComment);
         return Result.success(res);
     }
     public Result getFragInfo(String userid) {
@@ -331,17 +346,6 @@ public class FragmentService extends ServiceImpl<FragmentMapper, Fragment> {
         fragment.setFragmentName(updateFragmentDto.getFragmentName());
         fragment.setContent(updateFragmentDto.getContent());
         fragment.setAllowRelay(updateFragmentDto.getAllowRelay());
-//        //验证是否可修改接龙状态
-//        //TODO
-//        if (fragment.getAllowRelay()==0){
-//            //若修改为不可接龙，则需要判断子节点是否有其他人接龙
-//            List<Fragment>fragmentChildrenList=fragmentMapper.getchildren(fragment.getId());
-//            for(Integer i =0;i<fragmentChildrenList.size();i++){
-//                if(fragmentChildrenList.get(i).getUserId()!=fragment.getUserId()){
-//                    throw new ServerRtException(Constants.CODE_500,"存在他人接龙，更新片段失败！");
-//                }
-//            }
-//        }
 
         try {
             fragmentMapper.updateById(fragment);

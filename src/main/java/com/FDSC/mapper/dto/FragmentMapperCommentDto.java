@@ -12,5 +12,6 @@ public class FragmentMapperCommentDto {
     private Long toId;
     private String content;
     private Long topicId;
+    private Integer totalComment;
     private LocalDateTime time;
 }

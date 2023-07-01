@@ -22,7 +22,7 @@ public interface StoryMapper extends BaseMapper<Story> {
     public List<Story> getAll();
 
     @SelectProvider(type = SqlProvider.class, method = "search")
-    public List<StoryTempDto> search(@Param("tagId") Long tagId, @Param("sort") String sort);
+    public List<StoryTempDto> search(@Param("tagId") Long tagId, @Param("sort") String sort, @Param("page") Integer page);
 
     @Select("Select id as story_id, user_id, total_like, total_collection, total_comment, story_name, cover_url from story")
     public List<StoryItemDto> getAllStoryItem();
