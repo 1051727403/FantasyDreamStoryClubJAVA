@@ -22,8 +22,9 @@ public class SearchController {
 
     @GetMapping("/search")
     public Result search(@RequestParam Long tag,
-                         @RequestParam String sort) {
-        return searchService.search(tag, sort);
+                         @RequestParam String sort,
+                         @RequestParam Integer page) {
+        return searchService.search(tag, sort, page);
     }
 
 }

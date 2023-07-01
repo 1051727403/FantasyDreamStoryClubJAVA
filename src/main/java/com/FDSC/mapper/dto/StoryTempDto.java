@@ -7,7 +7,7 @@ import java.util.List;
 
 @Data
 public class StoryTempDto {
-    private Long id;
+    private Long storyId;
 
     private Long userId;
 
