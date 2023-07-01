@@ -3,6 +3,7 @@ package com.FDSC.controller;
 
 import com.FDSC.common.Result;
 import com.FDSC.controller.dto.AddFragmentDto;
+import com.FDSC.controller.dto.UpdateFragmentDto;
 import com.FDSC.entity.Fragment;
 import com.FDSC.mapper.FragmentMapper;
 import com.FDSC.service.FragmentService;
@@ -48,6 +49,16 @@ public class FragmentController {
     public Result addFragment(@RequestBody AddFragmentDto addFragmentDto){
         return fragmentService.addFragment(addFragmentDto);
     }
+    /**
+     * 修改片段
+     * @param updateFragmentDto
+     * @return Result
+     * */
+    @PostMapping("/updateFragment")
+    public Result updateFragment(@RequestBody UpdateFragmentDto updateFragmentDto){
+        return fragmentService.updateFragment(updateFragmentDto);
+    }
+
     /**
      * 删除片段
      * @param fragmentId

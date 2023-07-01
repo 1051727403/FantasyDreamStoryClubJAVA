@@ -8,6 +8,7 @@ import com.FDSC.common.Result;
 import com.FDSC.controller.dto.AddFragmentDto;
 import com.FDSC.controller.dto.FragmentInfoDto;
 import com.FDSC.controller.dto.FragmentDto;
+import com.FDSC.controller.dto.UpdateFragmentDto;
 import com.FDSC.entity.Fragment;
 import com.FDSC.entity.FragmentLikeCollection;
 import com.FDSC.entity.Story;
@@ -310,5 +311,24 @@ public class FragmentService extends ServiceImpl<FragmentMapper, Fragment> {
 
 
 
+    }
+
+    //修改片段信息
+    public Result updateFragment(UpdateFragmentDto updateFragmentDto) {
+        Fragment fragment=new Fragment();
+        try {
+            fragment =fragmentMapper.selectById(updateFragmentDto.getFragmentId());
+        }catch (Exception e){
+            throw new ServerRtException(Constants.CODE_500,"不存在该片段，更新失败！");
+        }
+        fragment.setFragmentName(updateFragmentDto.getFragmentName());
+        fragment.setContent(updateFragmentDto.getContent());
+        fragment.setAllowRelay(updateFragmentDto.getAllowRelay());
+        try {
+            fragmentMapper.updateById(fragment);
+            return Result.success(fragment);
+        }catch (Exception e){
+            throw new ServerRtException(Constants.CODE_500,"更新片段失败！");
+        }
     }
 }
