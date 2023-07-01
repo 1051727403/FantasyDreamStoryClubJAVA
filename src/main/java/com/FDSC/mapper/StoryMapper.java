@@ -14,6 +14,7 @@ import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
+
 @Mapper
 public interface StoryMapper extends BaseMapper<Story> {
 
@@ -55,5 +56,8 @@ public interface StoryMapper extends BaseMapper<Story> {
             " where story.user_id=#{userid} " +
             " or fragment.user_id=#{userid} and fragment.story_id=story.id")
     List<StoryItemDto> StoriessWithFragment(String userid);
+
+    @Insert("Insert story_tag(story_id,tag_id) values (#{storyid},#{tagid})")
+    boolean settag(Long storyid, Integer tagid);
 }
 
