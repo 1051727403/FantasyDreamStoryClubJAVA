@@ -18,7 +18,8 @@ public interface FragmentMapper extends BaseMapper<Fragment> {
 
     @Select("Select story_name as storyName,fragment.fragment_name as fragName," +
             "fragment.total_like as totalLike,fragment.total_collection as totalCollection," +
-            "fragment.total_comment as totalComment,left(content,20) as content " +
+            "fragment.total_comment as totalComment,left(content,20) as content," +
+            " story.id as storyId,fragment.id as fragmentId" +
             " from fragment,story " +
             " where fragment.story_id=story.id " +
             " and fragment.user_id=#{userid}")

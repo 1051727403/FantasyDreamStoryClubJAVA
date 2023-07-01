@@ -123,4 +123,23 @@ public class UserService extends ServiceImpl<UserMapper, User> {
 
         return true;
     }
+
+    public boolean saveAvatar(Long userid, String avatarUrl) {
+        try{
+            userMapper.saveAvatar(userid,avatarUrl);
+            return true;
+        }catch (Exception e){
+            return false;
+        }
+    }
+
+    public boolean saveUserName(Long userid, String userName, String nickName) {
+        try{
+            userMapper.saveUserName(userid,userName,nickName);
+            return true;
+        }catch (Exception e){
+            return false;
+        }
+    }
+
 }

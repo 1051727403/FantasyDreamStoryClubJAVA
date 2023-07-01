@@ -8,12 +8,23 @@ import org.apache.ibatis.annotations.*;
 @Mapper
 public interface UserMapper extends BaseMapper<User> {
 
-      @Select("select count(*) from sys_user where username=#{username}")
+    @Update("Update user " +
+            "set avatar_url=#{avatarUrl} " +
+            "where id=#{userid}")
+    boolean saveAvatar(Long userid, String avatarUrl);
+
+    @Select("select count(*) from sys_user where username=#{username}")
       boolean checkUser(String username);
 
       @Insert("Insert into user(username,password,nickname,avatar_url) values" +
               "(#{username},#{password},#{nickname},#{avatarUrl})")
       boolean saveuser(User user);
+    @Update("Update user " +
+            "set username=#{userName}, " +
+            "nickname=#{nickName} " +
+            "where id=#{userid}")
+    boolean saveUserName(Long userid, String userName, String nickName);
+
 
 //    @Select("SELECT * from sys_user")
 //    List<User> findAll();

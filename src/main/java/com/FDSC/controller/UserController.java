@@ -182,6 +182,19 @@ public class UserController {
 
     }
 
+    @PostMapping("/saveAvatar")
+    public Result saveAvatar(@RequestParam Long userid, @RequestParam String avatarUrl){
+        return Result.success(userService.saveAvatar(userid,avatarUrl));
+    }
+
+    @PostMapping("/saveUser")
+    public Result saveUserName(@RequestParam Long userid,
+                               @RequestParam String userName,
+                               @RequestParam String NickName){
+        return Result.success(userService.saveUserName(userid,userName,NickName));
+    }
+
+
 
 
 
