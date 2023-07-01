@@ -2,13 +2,18 @@ package com.FDSC.controller;
 
 import com.FDSC.common.Constants;
 import com.FDSC.common.Result;
+import com.FDSC.controller.dto.StoryNewDto;
 import com.FDSC.entity.Story;
 import com.FDSC.entity.User;
 import com.FDSC.mapper.StoryMapper;
 import com.FDSC.service.StoryService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/story")
@@ -25,6 +30,7 @@ public class StoryController {
     public Result getStoryTag(@RequestParam String storyid){
         return Result.success(storyService.getStoryTag(storyid));
     }
+
     @PostMapping("/collecteStory")
     public Result collecteStory(@RequestParam String storyid,
                                 @RequestParam String userid){
@@ -63,27 +69,22 @@ public class StoryController {
     public Result usersCollectStories(@RequestParam String userid){return storyService.usersCollectStories(userid);}
 
     @PostMapping("/saveStory")
-    public Result saveStory(@RequestParam String userid,
-                            @RequestParam String storyName,
-                            @RequestParam String introduce,
-                            @RequestParam String coverUrl){
+    public Result saveStory(@RequestBody StoryNewDto story){
         try{
-            Story story = new Story();
-            story.setStoryName(storyName);
-            story.setUserId(Long.valueOf(userid));
-            story.setIntroduce(introduce);
-            story.setCoverUrl(coverUrl);
-            storyService.save(story);
-            return Result.success(story.getId());
+            Story one = new Story();
+            one.setStoryName(story.getStoryName());
+            one.setUserId(story.getUserId());
+            one.setIntroduce(story.getIntroduce());
+            one.setCoverUrl(story.getCoverUrl());
+            storyService.save(one);
+            System.out.println(one.getId());
+            System.out.println(story.getTags());
+            storyService.setStoryTag(one.getId(),story.getTags());
+            return Result.success(one.getId());
         }catch (Exception e){
             return Result.error(Constants.CODE_500,"数据缺失");
         }
-
     }
-
-
-
-
 
 
 }
