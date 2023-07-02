@@ -30,7 +30,7 @@ public interface FragmentMapper extends BaseMapper<Fragment> {
 
     @Select("SELECT fc.id as fromId,fc.user_id as user_id,nickname,avatar_url as avatarUrl,parent_id as toId,content,topic_id as topicId,fc.create_time as time " +
                    "FROM fragment_comment as fc,user " +
-                   "WHERE fc.fragment_id=#{fragmentId} AND user.id=fc.user_id")
+                   "WHERE fc.fragment_id=#{fragmentId} AND user.id=fc.user_id order by fc.create_time ")
     List<FragmentMapperCommentDto> getFragmentComments(long fragmentId);
 
     @Select("select * from fragment where parent_id=#{id}")

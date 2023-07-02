@@ -17,6 +17,6 @@ public interface StoryCommentMapper extends BaseMapper<StoryComment> {
     void updateContent(Long id, String content);
     @Select("SELECT sc.id as fromId,sc.user_id as user_id,nickname,avatar_url as avatarUrl,parent_id as toId,content,topic_id as topicId,sc.create_time as time " +
             "FROM story_comment as sc,user " +
-            "WHERE sc.story_id=#{storyId} AND user.id=sc.user_id")
+            "WHERE sc.story_id=#{storyId} AND user.id=sc.user_id order by sc.create_time")
     List<StoryMapperCommentDto> getStoryComments(long storyId);
 }
