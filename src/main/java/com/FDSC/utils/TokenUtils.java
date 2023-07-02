@@ -1,7 +1,9 @@
 package com.FDSC.utils;
 
 import cn.hutool.core.util.StrUtil;
+import com.FDSC.common.Constants;
 import com.FDSC.entity.User;
+import com.FDSC.exception.ServiceException;
 import com.FDSC.service.UserService;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -53,8 +55,8 @@ public class TokenUtils {
                 return staticUserService.getById(userId);
             }
         }catch(Exception e){
-            //throw new ServiceException(Constants.CODE_600,"获取当前登录用户的信息失败！");
-            return null;
+            throw new ServiceException(Constants.CODE_600,"获取当前登录用户的信息失败！");
+            //return null;
         }
         return null;
     }
