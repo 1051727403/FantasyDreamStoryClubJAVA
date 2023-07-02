@@ -9,6 +9,7 @@ import com.FDSC.mapper.FragmentMapper;
 import com.FDSC.service.FragmentService;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.xmlbeans.impl.xb.xsdschema.Public;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -48,6 +49,17 @@ public class FragmentController {
     @PostMapping("/addFragment")
     public Result addFragment(@RequestBody AddFragmentDto addFragmentDto){
         return fragmentService.addFragment(addFragmentDto);
+    }
+    /**
+     * 添加片段接龙
+     * @param addFragmentDto
+     * @return Result
+     * */
+    @PostMapping("/addRootFragment")
+    public Result addRootFragment(@RequestBody AddFragmentDto addFragmentDto){
+        Fragment fragment = new Fragment();
+        BeanUtils.copyProperties(addFragmentDto,fragment);
+        return Result.success(fragmentService.save(fragment));
     }
     /**
      * 修改片段

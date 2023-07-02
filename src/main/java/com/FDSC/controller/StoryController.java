@@ -78,8 +78,10 @@ public class StoryController {
             one.setCoverUrl(story.getCoverUrl());
             storyService.save(one);
             System.out.println(one.getId());
-            System.out.println(story.getTags());
-            storyService.setStoryTag(one.getId(),story.getTags());
+
+            List<Integer> tags = story.getTags();
+            System.out.println(tags);
+            if(!tags.isEmpty()) storyService.setStoryTag(one.getId(),story.getTags());
             return Result.success(one.getId());
         }catch (Exception e){
             return Result.error(Constants.CODE_500,"数据缺失");
