@@ -96,7 +96,11 @@ public class UserService extends ServiceImpl<UserMapper, User> {
 
     public boolean upUserInfo(UserInfoDto user) {
             User u = new User();
-            BeanUtils.copyProperties(user,u);
+            //BeanUtils.copyProperties(user,u);
+            u.setId(user.getId());
+            u.setUsername(user.getUserName());
+            u.setNickname(user.getNickName());
+            u.setAvatarUrl(user.getAvatarUrl());
             if(u.getId()>0){
                 try {
                     updateById(u);
