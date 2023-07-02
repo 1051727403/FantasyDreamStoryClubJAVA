@@ -24,6 +24,9 @@ public interface StoryMapper extends BaseMapper<Story> {
     @SelectProvider(type = SqlProvider.class, method = "search")
     public List<StoryTempDto> search(@Param("tagId") Long tagId, @Param("sort") String sort, @Param("page") Integer page);
 
+    @SelectProvider(type = SqlProvider.class, method = "storyNum")
+    public Integer getStoryNum(@Param("tagId") Long tagId);
+
     @Select("Select id as story_id, user_id, total_like, total_collection, total_comment, story_name, cover_url from story")
     public List<StoryItemDto> getAllStoryItem();
 

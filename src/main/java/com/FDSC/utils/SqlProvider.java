@@ -33,4 +33,25 @@ public class SqlProvider {
         return sql2.toString();
 
     }
+
+    public String storyNum(@io.lettuce.core.dynamic.annotation.Param("tagId") Long tagId) {
+        SQL sql1 = new SQL()
+                .SELECT("COUNT(1)")
+                .FROM("story");
+
+        SQL sql2 = new SQL()
+                .SELECT("COUNT(1)")
+                .FROM(String.format("(SELECT * FROM story t1 WHERE EXISTS (" +
+                        "SELECT * FROM (" +
+                        "SELECT s.id, t.id AS tag_id " +
+                        "FROM story s " +
+                        "JOIN story_tag st ON s.id = st.story_id " +
+                        "JOIN tag t ON t.id = st.tag_id) t2 " +
+                        "WHERE t2.id = t1.id AND t2.tag_id = %d) ", tagId))
+                .JOIN("story_tag st ON s.id = st.story_id")
+                .JOIN("tag t ON t.id = st.tag_id");
+        if (tagId == -1) return sql1.toString();
+        return sql2.toString();
+
+    }
 }

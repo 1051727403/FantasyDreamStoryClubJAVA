@@ -42,7 +42,6 @@ public class SearchService {
         return dtf2.format(time);
     }
 
-    @Transactional
     public Result search(Long tag, String sort, Integer page) {
         try{
             System.out.println(tag);
@@ -53,12 +52,6 @@ public class SearchService {
             else if (Objects.equals(sort, "liked")) sort = "total_like";
             else if (Objects.equals(sort, "collection")) sort = "total_collection";
             else throw new Exception();
-
-            System.out.println(tag);
-            System.out.println(sort);
-
-            SqlProvider t = new SqlProvider();
-            System.out.println(t.search(tag, sort, page));
 
             List<StoryTempDto> list = storyMapper.search(tag, sort, page);
             List<StoryDto> stories = new ArrayList<>(list.size());
@@ -99,4 +92,11 @@ public class SearchService {
         }
     }
 
+    public Result storyNum(Long tag) {
+        try{
+            return Result.success(storyMapper.getStoryNum(tag));
+        }catch (Exception e){
+            return Result.error("403","获取失败");
+        }
+    }
 }
