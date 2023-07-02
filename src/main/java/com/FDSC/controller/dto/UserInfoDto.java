@@ -4,13 +4,8 @@ import lombok.Data;
 
 @Data
 public class UserInfoDto {
-    Integer id;
-    String username;
-    String nickname;
-    String phone;
-    String email;
-    String campus;
-    String area;
-    String building;
-    String dormitory;
+    private Long id;
+    private String userName;
+    private String nickName;
+    private String avatarUrl;
 }
