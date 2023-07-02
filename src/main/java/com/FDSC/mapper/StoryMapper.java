@@ -24,6 +24,9 @@ public interface StoryMapper extends BaseMapper<Story> {
     @SelectProvider(type = SqlProvider.class, method = "search")
     public List<StoryTempDto> search(@Param("tagId") Long tagId, @Param("sort") String sort, @Param("page") Integer page);
 
+    @SelectProvider(type = SqlProvider.class, method = "storyNum")
+    public Integer getStoryNum(@Param("tagId") Long tagId);
+
     @Select("Select id as story_id, user_id, total_like, total_collection, total_comment, story_name, cover_url from story")
     public List<StoryItemDto> getAllStoryItem();
 
@@ -42,10 +45,12 @@ public interface StoryMapper extends BaseMapper<Story> {
 
     @Delete("Delete from story_collection where story_id=#{storyid} and user_id=#{userid}")
     boolean uncollected(String storyid, String userid);
-    @Select("Select id as storyId,total_like,total_collection,total_comment,story_name,cover_url from story where user_id=#{userid}")
+    @Select("Select id as storyId,total_like,total_collection,total_comment,story_name,cover_url,story.user_id as userId " +
+            " from story " +
+            " where user_id=#{userid}")
     List<StoryItemDto> usersStories(String userid);
 
-    @Select("Select story.id as storyId,total_like,total_collection,total_comment,story_name,cover_url " +
+    @Select("Select story.id as storyId,total_like,total_collection,total_comment,story_name,cover_url,story.user_id as userId " +
             "from story,story_collection " +
             "where story.id=story_id " +
             "and story_collection.user_id=#{userid}")

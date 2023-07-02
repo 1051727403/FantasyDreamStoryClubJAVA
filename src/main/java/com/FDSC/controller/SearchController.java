@@ -27,4 +27,9 @@ public class SearchController {
         return searchService.search(tag, sort, page);
     }
 
+    @GetMapping("/storyNum")
+    public Result pageNum(@RequestParam Long tag) {
+        return searchService.storyNum(tag);
+    }
+
 }
