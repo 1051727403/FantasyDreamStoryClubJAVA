@@ -158,4 +158,12 @@ public class StoryService extends ServiceImpl<StoryMapper, Story> {
             return Result.error(Constants.CODE_500,"获取失败4");
         }
     }
+
+    public Result checkCollect(String userId, String storyId) {
+        try{
+            return Result.success(storyMapper.checkCollect(userId,storyId));
+        }catch (Exception e){
+            return Result.error(Constants.CODE_500,"数据错误");
+        }
+    }
 }
