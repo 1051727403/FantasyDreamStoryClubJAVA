@@ -77,9 +77,9 @@ public class UserService extends ServiceImpl<UserMapper, User> {
             throw new ServiceException(Constants.CODE_600,"该用户名已被注册！");
         }
     }
-    private User getUserInfo(String username,String password){
+    private User getUserInfo(String userId,String password){
         QueryWrapper queryWrapper=new QueryWrapper<User>();
-        queryWrapper.eq("username",username);
+        queryWrapper.eq("username",userId);
         if(!StrUtil.isBlank(password)) {
             queryWrapper.eq("password", password);
         }
@@ -111,14 +111,14 @@ public class UserService extends ServiceImpl<UserMapper, User> {
 
     }
 
-    public boolean changepw(String username, String password, String newpassword) {
-        User one=getUserInfo(username,password);
+    public boolean changepw(String userName, String password, String newpassword) {
+        User one= getUserInfo(userName,password);
         if(one!=null){
             one.setPassword(newpassword);
             updateById(one);
         }
         else{
-            throw  new ServiceException(Constants.CODE_500,"用户名错误");
+            throw  new ServiceException(Constants.CODE_500,"密码错误");
         }
 
         return true;
@@ -141,5 +141,6 @@ public class UserService extends ServiceImpl<UserMapper, User> {
             return false;
         }
     }
+
 
 }

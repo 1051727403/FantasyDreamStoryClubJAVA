@@ -195,6 +195,13 @@ public class UserController {
     }
 
 
+    @PostMapping("/changePassword")
+    public  Result changePassword(@RequestParam String userName,
+                                  @RequestParam String oldPassword,
+                                  @RequestParam String newPassword){
+        return Result.success(userService.changepw(userName,oldPassword,newPassword));
+    }
+
 
 
 
