@@ -1,8 +1,7 @@
 package com.FDSC.mapper;
 
-import com.FDSC.entity.FragmentComment;
-import com.FDSC.entity.FragmentLikeCollection;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.FDSC.entity.FragmentComment;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Update;
 

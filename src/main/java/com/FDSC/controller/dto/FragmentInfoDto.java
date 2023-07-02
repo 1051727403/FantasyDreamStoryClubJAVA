@@ -2,8 +2,6 @@ package com.FDSC.controller.dto;
 
 import lombok.Data;
 
-import java.util.List;
-
 @Data
 public class FragmentInfoDto {
 

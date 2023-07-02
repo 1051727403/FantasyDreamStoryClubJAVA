@@ -1,7 +1,5 @@
 package com.FDSC.common;
 
-import javax.print.DocFlavor;
-
 public interface Constants {
     String CODE_200="200";  //成功
     String CODE_400="400";  //参数错误

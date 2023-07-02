@@ -4,13 +4,8 @@ import com.FDSC.common.Constants;
 import com.FDSC.common.Result;
 import com.FDSC.controller.dto.StoryNewDto;
 import com.FDSC.entity.Story;
-import com.FDSC.entity.User;
-import com.FDSC.mapper.StoryMapper;
 import com.FDSC.service.StoryService;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

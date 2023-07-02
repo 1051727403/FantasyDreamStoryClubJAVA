@@ -4,7 +4,7 @@ package com.FDSC.service;
 import com.FDSC.common.Constants;
 import com.FDSC.common.Result;
 import java.time.Duration;
-import com.FDSC.controller.dto.SlideShowDto;
+
 import com.FDSC.controller.dto.StoryItemDto;
 import com.FDSC.controller.dto.StoryLatestDto;
 import com.FDSC.entity.Story;

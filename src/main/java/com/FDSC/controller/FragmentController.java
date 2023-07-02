@@ -5,15 +5,10 @@ import com.FDSC.common.Result;
 import com.FDSC.controller.dto.AddFragmentDto;
 import com.FDSC.controller.dto.UpdateFragmentDto;
 import com.FDSC.entity.Fragment;
-import com.FDSC.mapper.FragmentMapper;
 import com.FDSC.service.FragmentService;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.xmlbeans.impl.xb.xsdschema.Public;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.security.PublicKey;
 
 @RestController
 @RequestMapping("/fragment")

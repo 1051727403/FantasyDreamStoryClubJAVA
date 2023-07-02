@@ -1,13 +1,11 @@
 package com.FDSC.service;
 
-import com.FDSC.common.Constants;
-import com.FDSC.common.Result;
-import com.FDSC.entity.Fragment;
-import com.FDSC.entity.FragmentComment;
-import com.FDSC.mapper.FragmentCommentMapper;
-import com.FDSC.mapper.FragmentMapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.FDSC.common.Constants;
+import com.FDSC.common.Result;
+import com.FDSC.entity.FragmentComment;
+import com.FDSC.mapper.FragmentCommentMapper;
 import com.sun.xml.internal.ws.server.ServerRtException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +43,7 @@ public class FragmentCommentService extends ServiceImpl<FragmentCommentMapper, F
     public Result deleteById(Long id) {
         QueryWrapper<FragmentComment> wrapper=new QueryWrapper<>();
         wrapper.eq("parent_id",id);
-        List<FragmentComment>fragmentCommentList=new ArrayList<>();
+        List<FragmentComment> fragmentCommentList=new ArrayList<>();
         try {
             fragmentCommentList=fragmentCommentMapper.selectList(wrapper);
         }catch (Exception e){
