@@ -59,11 +59,11 @@ public class FragmentCommentService extends ServiceImpl<FragmentCommentMapper, F
             }catch (Exception e){
                 throw new ServerRtException(Constants.CODE_500,"删除评论失败！");
             }
-        }{
+        }else{
             //若有子评论则更新为：该评论已删除
             try {
                 String content="该评论已删除！";
-                fragmentCommentMapper.updateConten(id,content);
+                fragmentCommentMapper.updateContent(id,content);
                 return Result.success();
             }catch (Exception e){
                 throw new ServerRtException(Constants.CODE_500,"删除评论失败！");

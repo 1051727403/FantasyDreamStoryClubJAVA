@@ -36,6 +36,10 @@ public class StoryComment {
     @TableField(value = "parent_id")
     private Long parentId;
 
+    @Alias("主题")
+    @TableField(value = "topic_id")
+    private Long topicId;
+
     @Alias("创建时间")
     @TableField(value = "create_time")
     private LocalDateTime createTime;

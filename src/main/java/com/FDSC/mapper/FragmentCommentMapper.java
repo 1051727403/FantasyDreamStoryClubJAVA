@@ -11,5 +11,5 @@ public interface FragmentCommentMapper extends BaseMapper<FragmentComment> {
 
 
     @Update("update fragment_comment set content=#{content} where id=#{id}")
-    void updateConten(Long id, String content);
+    void updateContent(Long id, String content);
 }
