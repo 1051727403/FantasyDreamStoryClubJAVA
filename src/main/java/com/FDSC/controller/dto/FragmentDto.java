@@ -43,6 +43,7 @@ public class FragmentDto {
     public static class CommentDTO {
         private String name;
         private long id;
+        private Long userId;
         private String headImg;
         private String comment;
         private LocalDateTime time;
@@ -55,6 +56,7 @@ public class FragmentDto {
         public static class ReplyDTO {
             private String from;
             private long fromId;
+            private long userId;
             private String fromHeadImg;
             private String to;
             private long toId;

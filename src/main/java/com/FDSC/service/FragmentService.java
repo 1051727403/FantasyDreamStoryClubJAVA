@@ -157,6 +157,7 @@ public class FragmentService extends ServiceImpl<FragmentMapper, Fragment> {
             if(comment.getToId()==0){
                 //主题节点，转换后直接放入result
                 FragmentDto.CommentDTO commentDTO=new FragmentDto.CommentDTO();
+                commentDTO.setUserId(comment.getUserId());
                 commentDTO.setName(comment.getNickname());
                 commentDTO.setId(comment.getFromId());
                 commentDTO.setHeadImg(comment.getAvatarUrl());
@@ -180,6 +181,7 @@ public class FragmentService extends ServiceImpl<FragmentMapper, Fragment> {
 
                 FragmentDto.CommentDTO.ReplyDTO replyDTO=new FragmentDto.CommentDTO.ReplyDTO();
                 replyDTO.setFrom(comment.getNickname());
+                replyDTO.setUserId(comment.getUserId());
                 replyDTO.setFromId(comment.getFromId());
                 replyDTO.setFromHeadImg(comment.getAvatarUrl());
                 replyDTO.setTo(parentNode.getNickname());
@@ -215,7 +217,12 @@ public class FragmentService extends ServiceImpl<FragmentMapper, Fragment> {
         QueryWrapper<FragmentLikeCollection>wrapper=new QueryWrapper<>();
         wrapper.eq("user_id",userId);
         wrapper.eq("fragment_id",fragmentId);
-        FragmentLikeCollection fragmentLikeCollection= fragmentLikeCollectionMapper.selectOne(wrapper);
+        FragmentLikeCollection fragmentLikeCollection=new FragmentLikeCollection();
+        try {
+             fragmentLikeCollection= fragmentLikeCollectionMapper.selectOne(wrapper);
+        }catch (Exception e){
+            throw new ServerRtException(Constants.CODE_500,"是否已点赞表中存在脏数据");
+        }
         if(fragmentLikeCollection==null){
             isLike=isCollected=0;
         }else{

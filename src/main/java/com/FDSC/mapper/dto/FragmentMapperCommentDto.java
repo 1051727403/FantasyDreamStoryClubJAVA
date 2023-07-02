@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 @Data
 public class FragmentMapperCommentDto {
     private Long fromId;
+    private Long userId;
     private String nickname;
     private String avatarUrl;
     private Long toId;

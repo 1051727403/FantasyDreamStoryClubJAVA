@@ -29,7 +29,7 @@ public interface FragmentMapper extends BaseMapper<Fragment> {
     FragmentDto.AuthorDTO getFragmentAuthor(long fragmentId);
 
 
-    @Select("SELECT fc.id as fromId,nickname,avatar_url as avatarUrl,parent_id as toId,content,topic_id as topicId,fc.create_time as time " +
+    @Select("SELECT fc.id as fromId,fc.user_id as user_id,nickname,avatar_url as avatarUrl,parent_id as toId,content,topic_id as topicId,fc.create_time as time " +
                    "FROM fragment_comment as fc,user " +
                    "WHERE fc.fragment_id=#{fragmentId} AND user.id=fc.user_id")
     List<FragmentMapperCommentDto> getFragmentComments(long fragmentId);
