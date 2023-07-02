@@ -39,18 +39,24 @@ public class SearchService {
         return dtf2.format(time);
     }
 
-    public Result search(Long tag, String sort, Integer page) {
+    public Result search(Long tag, String sort, Integer page, String keyWord) {
         try{
             System.out.println(tag);
             System.out.println(sort);
             System.out.println(page);
+            System.out.println(keyWord);
 
             if (Objects.equals(sort, "date")) sort = "update_time";
             else if (Objects.equals(sort, "liked")) sort = "total_like";
             else if (Objects.equals(sort, "collection")) sort = "total_collection";
             else throw new Exception();
 
-            List<StoryTempDto> list = storyMapper.search(tag, sort, page);
+            SqlProvider sqlProvider = new SqlProvider();
+            System.out.println(sqlProvider.search(tag, sort, page, keyWord));
+            System.out.println("------");
+            System.out.println(sqlProvider.storyNum(tag, keyWord));
+
+            List<StoryTempDto> list = storyMapper.search(tag, sort, page, keyWord);
             List<StoryDto> stories = new ArrayList<>(list.size());
             Long currentId = (long) -1;
             List<TagDto> currentTagList = null;
@@ -89,9 +95,9 @@ public class SearchService {
         }
     }
 
-    public Result storyNum(Long tag) {
+    public Result storyNum(Long tag, String keyWord) {
         try{
-            return Result.success(storyMapper.getStoryNum(tag));
+            return Result.success(storyMapper.getStoryNum(tag, keyWord));
         }catch (Exception e){
             return Result.error("403","获取失败");
         }
