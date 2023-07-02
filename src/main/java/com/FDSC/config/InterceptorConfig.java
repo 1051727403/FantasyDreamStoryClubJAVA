@@ -9,7 +9,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class InterceptorConfig implements WebMvcConfigurer {
 
-    @Bean
+
     public JwtInterceptor jwtInterceptor(){
         return new JwtInterceptor();
     }
@@ -18,7 +18,7 @@ public class InterceptorConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(jwtInterceptor())
                 .addPathPatterns("/**")         //拦截所有请求判断token是否合法决定是否需要登录
-                .excludePathPatterns("/**");//这些接口不验证,暂时接口全部开放"
+                .excludePathPatterns("/login");//这些接口不验证,暂时接口全部开放"
 
     }
 }
