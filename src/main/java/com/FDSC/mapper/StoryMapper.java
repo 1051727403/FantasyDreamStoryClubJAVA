@@ -64,5 +64,8 @@ public interface StoryMapper extends BaseMapper<Story> {
 
     //@Insert("Insert story_tag(story_id,tag_id) values (#{storyid},#{tagid})")
     boolean settag(Long storyid, List<Integer> tags);
+
+    @Select("Select count(*) from story_collection where user_id=#{userId} and story_id=#{storyId}")
+    boolean checkCollect(String userId, String storyId);
 }
 

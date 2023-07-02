@@ -88,5 +88,11 @@ public class StoryController {
         }
     }
 
+    @GetMapping("/checkCollect")
+    public Result checkCollect(@RequestParam String userId ,
+                               @RequestParam String storyId){
+        return storyService.checkCollect(userId,storyId);
+    }
+
 
 }
