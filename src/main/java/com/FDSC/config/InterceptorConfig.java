@@ -31,7 +31,7 @@ public class InterceptorConfig implements WebMvcConfigurer {
                                     "/tag/getTags",
                                     "/search/**",
                                     "/fragment/loadAllFragment","/fragment/loadauthorInfoAndComment","/fragment/getFragInfo",
-                                    "");//这些接口不验证,暂时接口全部开放"
+                                    "/announce/**");//这些接口不验证,暂时接口全部开放"
 
     }
     @Override

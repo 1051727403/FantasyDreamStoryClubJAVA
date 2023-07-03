@@ -8,5 +8,7 @@ public class AnnounceShowDto {
 
     private String title;
 
-    private String updateTime;
+    private String createTime;
+
+    private String coverUrl;
 }

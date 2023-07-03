@@ -10,5 +10,5 @@ public class AnnounceShowTempDto {
 
     private String title;
 
-    private LocalDateTime updateTime;
+    private LocalDateTime createTime;
 }

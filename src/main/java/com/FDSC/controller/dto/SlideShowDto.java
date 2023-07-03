@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class SlideShowDto {
-    private Integer storyId;
+    private Integer announceId;
 
     private String coverUrl;
 

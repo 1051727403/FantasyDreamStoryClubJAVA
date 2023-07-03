@@ -38,7 +38,7 @@ public class AnnounceService {
                 AnnounceShowDto temp = new AnnounceShowDto();
                 temp.setAnnounceId(announce.getId());
                 temp.setTitle(announce.getTitle());
-                temp.setUpdateTime(DateTimeFormatter.ofPattern("yyyy-MM-dd").format(announce.getUpdateTime()));
+                temp.setCreateTime(DateTimeFormatter.ofPattern("yyyy-MM-dd").format(announce.getCreateTime()));
                 announces.add(temp);
             }
             return Result.success(announces);
@@ -47,15 +47,17 @@ public class AnnounceService {
         }
     }
 
-    public Result allAnnounce() {
+    public Result allAnnounce(Integer page) {
         try{
-            List<AnnounceShowTempDto> list = announceMapper.getAllAnnounce();
-            List<AnnounceShowDto> announces = new ArrayList<>(list.size());
-            for (AnnounceShowTempDto announce : list) {
-                AnnounceShowDto temp = new AnnounceShowDto();
+            List<Announcement> list = announceMapper.getAllAnnounce(page);
+            List<AnnounceDto> announces = new ArrayList<>(list.size());
+            for (Announcement announce : list) {
+                AnnounceDto temp = new AnnounceDto();
                 temp.setAnnounceId(announce.getId());
                 temp.setTitle(announce.getTitle());
-                temp.setUpdateTime(DateTimeFormatter.ofPattern("yyyy-MM-dd").format(announce.getUpdateTime()));
+                temp.setContent(announce.getContent());
+                temp.setCoverUrl(announce.getCoverUrl());
+                temp.setCreateTime(DateTimeFormatter.ofPattern("yyyy-MM-dd").format(announce.getCreateTime()));
                 announces.add(temp);
             }
             return Result.success(announces);
@@ -75,6 +77,14 @@ public class AnnounceService {
             temp.setUpdateTime(DateTimeFormatter.ofPattern("yyyy-MM-dd").format(announce.getUpdateTime()));
             temp.setCreateTime(DateTimeFormatter.ofPattern("yyyy-MM-dd").format(announce.getCreateTime()));
             return Result.success(temp);
+        }catch (Exception e){
+            return Result.error(Constants.CODE_500,"获取失败");
+        }
+    }
+
+    public Result announceNum() {
+        try{
+            return Result.success(announceMapper.getAnnounceNum());
         }catch (Exception e){
             return Result.error(Constants.CODE_500,"获取失败");
         }
