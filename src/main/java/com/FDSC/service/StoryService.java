@@ -29,9 +29,6 @@ public class StoryService extends ServiceImpl<StoryMapper, Story> {
     @Autowired
     private StoryMapper storyMapper;
 
-    @Autowired
-    private AnnounceMapper announceMapper;
-
     public List<String> getStoryTag(String storyid){   return storyMapper.gettag(storyid);}
 
     public void setStoryTag(Long storyid,List<Integer> tags){
@@ -60,14 +57,6 @@ public class StoryService extends ServiceImpl<StoryMapper, Story> {
             List<StoryItemDto> list =  storyMapper.getAllStoryItem();
             Collections.shuffle(list);
             return Result.success(list.subList(0, Math.min(list.size(), 15)));
-        }catch (Exception e){
-            return Result.error("403","获取失败");
-        }
-    }
-
-    public Result slideShow() {
-        try{
-            return Result.success(announceMapper.getSlideShow());
         }catch (Exception e){
             return Result.error("403","获取失败");
         }

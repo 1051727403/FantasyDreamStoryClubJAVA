@@ -43,11 +43,6 @@ public class StoryController {
         return storyService.recommend();
     }
 
-    @GetMapping("/slideShow")
-    public Result slideShow() {
-        return storyService.slideShow();
-    }
-
     @GetMapping("/latestStory")
     public Result latestStory() { return storyService.latestStory(); }
 

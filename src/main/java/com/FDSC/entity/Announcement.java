@@ -19,6 +19,10 @@ public class Announcement {
     @TableId(type = IdType.AUTO)
     private Long id;
 
+    @Alias("标题")
+    @TableField(value = "title")
+    private String title;
+
     @Alias("公告内容")
     @TableField(value = "content")
     private String content;
