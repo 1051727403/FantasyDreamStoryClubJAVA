@@ -4,6 +4,8 @@ import com.FDSC.entity.User;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.*;
 
+import java.util.List;
+
 // @Mapper 配置放在配置类config最好不放在启动类
 @Mapper
 public interface UserMapper extends BaseMapper<User> {
@@ -24,6 +26,8 @@ public interface UserMapper extends BaseMapper<User> {
             "nickname=#{nickName} " +
             "where id=#{userid}")
     boolean saveUserName(Long userid, String userName, String nickName);
+
+    Object deleteBatchUser(List<String> userId);
 
 
 //    @Select("SELECT * from sys_user")

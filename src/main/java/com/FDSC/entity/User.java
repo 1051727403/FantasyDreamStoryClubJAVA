@@ -45,6 +45,9 @@ public class User {
     @TableField(value = "is_admin")
     private Integer isAdmin;
 
+    @Alias("是否为删除")
+    @TableField(value = "removed")
+    private Integer removed;
     @Alias("创建时间")
     @TableField(value = "create_time")
     private LocalDateTime createTime;

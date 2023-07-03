@@ -2,6 +2,7 @@ package com.FDSC.service;
 
 import cn.hutool.core.util.StrUtil;
 import com.FDSC.common.Constants;
+import com.FDSC.common.Result;
 import com.FDSC.entity.User;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -16,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -94,25 +96,30 @@ public class UserService extends ServiceImpl<UserMapper, User> {
     }
 
 
-    public boolean upUserInfo(UserInfoDto user) {
+    public Result upUserInfo(UserInfoDto user) {
             User u = new User();
             //BeanUtils.copyProperties(user,u);
-            u.setId(user.getId());
             u.setUsername(user.getUserName());
             u.setNickname(user.getNickName());
             u.setAvatarUrl(user.getAvatarUrl());
-            if(u.getId()>0){
+            u.setRemoved(user.getRemoved());
+            u.setPassword(user.getPassword());
+            if(user.getId() == null ){
                 try {
-                    updateById(u);
+                    return Result.success(userMapper.saveuser(u));
                 }
                 catch (Exception e){
-                    throw new ServiceException(Constants.CODE_500, "ID失败");
+                    return Result.error(Constants.CODE_500, "注册失败,重复用户名");
                 }
             }else {
-                throw new ServiceException(Constants.CODE_500, "保存失败");
+                u.setId(user.getId());
+                try {
+                    return Result.success(updateById(u));
+                }
+                catch (Exception e){
+                    return Result.error(Constants.CODE_500, "ID失败");
+                }
             }
-            return true;
-
     }
 
     public boolean changepw(String userName, String password, String newpassword) {
@@ -147,4 +154,22 @@ public class UserService extends ServiceImpl<UserMapper, User> {
     }
 
 
+    public Result deleteUser(String userId) {
+        try{
+            User one = getById(userId);
+            one.setRemoved(1);
+            saveOrUpdate(one);
+            return Result.success();
+        }catch (Exception e){
+            return Result.error(Constants.CODE_500,e.getMessage());
+        }
+    }
+
+    public Result deleteBatchUser(List<String> userId) {
+        try{
+            return Result.success(userMapper.deleteBatchUser(userId));
+        }catch (Exception e){
+            return Result.error(Constants.CODE_500,e.getMessage());
+        }
+    }
 }
