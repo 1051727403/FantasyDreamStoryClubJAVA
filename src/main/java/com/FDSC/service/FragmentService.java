@@ -185,7 +185,7 @@ public class FragmentService extends ServiceImpl<FragmentMapper, Fragment> {
         return result;
     }
     //获取片段作者信息
-    public Result loadAuthorAndComment(long fragmentId,long userId) {
+    public Result loadAuthorAndComment(Long fragmentId,Long userId) {
         Map<String,Object>res=new HashMap<>();
         //获取片段作者信息
         FragmentDto.AuthorDTO author=new FragmentDto.AuthorDTO();
@@ -198,26 +198,31 @@ public class FragmentService extends ServiceImpl<FragmentMapper, Fragment> {
         //转换格式
         comment=listToComment(fragmentMapperCommentDtoList);
         res.put("comments",comment);
-        //获取是否点赞和收藏
-        Integer isLike;
-        Integer isCollected;
-        QueryWrapper<FragmentLikeCollection>wrapper=new QueryWrapper<>();
-        wrapper.eq("user_id",userId);
-        wrapper.eq("fragment_id",fragmentId);
-        FragmentLikeCollection fragmentLikeCollection=new FragmentLikeCollection();
-        try {
-             fragmentLikeCollection= fragmentLikeCollectionMapper.selectOne(wrapper);
-        }catch (Exception e){
-            throw new ServerRtException(Constants.CODE_500,"是否已点赞表中存在脏数据");
+        if (userId==null){
+            res.put("isLike",0);
+            res.put("isCollected",0);
+        }else {
+            //获取是否点赞和收藏
+            Integer isLike;
+            Integer isCollected;
+            QueryWrapper<FragmentLikeCollection> wrapper = new QueryWrapper<>();
+            wrapper.eq("user_id", userId);
+            wrapper.eq("fragment_id", fragmentId);
+            FragmentLikeCollection fragmentLikeCollection = new FragmentLikeCollection();
+            try {
+                fragmentLikeCollection = fragmentLikeCollectionMapper.selectOne(wrapper);
+            } catch (Exception e) {
+                throw new ServerRtException(Constants.CODE_500, "是否已点赞表中存在脏数据");
+            }
+            if (fragmentLikeCollection == null) {
+                isLike = isCollected = 0;
+            } else {
+                isLike = fragmentLikeCollection.getIsLike();
+                isCollected = fragmentLikeCollection.getIsCollection();
+            }
+            res.put("isLike", isLike);
+            res.put("isCollected", isCollected);
         }
-        if(fragmentLikeCollection==null){
-            isLike=isCollected=0;
-        }else{
-            isLike=fragmentLikeCollection.getIsLike();
-            isCollected=fragmentLikeCollection.getIsCollection();
-        }
-        res.put("isLike",isLike);
-        res.put("isCollected",isCollected);
         //获取评论数
         Integer totalComment;
         try {

@@ -1,6 +1,7 @@
 package com.FDSC.service;
 
 
+import cn.hutool.core.util.StrUtil;
 import com.FDSC.common.Constants;
 import com.FDSC.common.Result;
 import java.time.Duration;
@@ -13,6 +14,7 @@ import com.FDSC.mapper.StoryMapper;
 import com.FDSC.mapper.dto.StoryLatestTempDto;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.poi.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -139,10 +141,9 @@ public class StoryService extends ServiceImpl<StoryMapper, Story> {
     }
 
     public Result StoriesWithFragment(String userid) {
-
-            try{
-                return Result.success(storyMapper.StoriessWithFragment(userid));
-            }
+        try{
+            return Result.success(storyMapper.StoriessWithFragment(userid));
+        }
         catch (Exception e){
             return Result.error(Constants.CODE_500,"获取失败4");
         }
@@ -150,7 +151,9 @@ public class StoryService extends ServiceImpl<StoryMapper, Story> {
 
     public Result checkCollect(String userId, String storyId) {
         try{
-            return Result.success(storyMapper.checkCollect(userId,storyId));
+            if (StrUtil.isBlank(userId)|| StrUtil.isBlank(storyId))return Result.success();
+            else return Result.success(storyMapper.checkCollect(userId,storyId));
+
         }catch (Exception e){
             return Result.error(Constants.CODE_500,"数据错误");
         }

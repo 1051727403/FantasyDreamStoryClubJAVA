@@ -12,7 +12,7 @@ import java.util.List;
 
 public class FragmentDto {
     private String id;
-    private long rootId;
+    private Long rootId;
     private String topic;
     private AuthorDTO authorInfo;
     private int allowRelay;
@@ -40,7 +40,7 @@ public class FragmentDto {
     @Data
     public static class CommentDTO {
         private String name;
-        private long id;
+        private Long id;
         private Long userId;
         private String headImg;
         private String comment;
@@ -53,11 +53,11 @@ public class FragmentDto {
         @Data
         public static class ReplyDTO {
             private String from;
-            private long fromId;
-            private long userId;
+            private Long fromId;
+            private Long userId;
             private String fromHeadImg;
             private String to;
-            private long toId;
+            private Long toId;
             private String comment;
             private LocalDateTime time;
             private boolean inputShow;
@@ -67,7 +67,7 @@ public class FragmentDto {
 
     @Data
     public static class ChildDto{
-        private long id;
+        private Long id;
         private String topic;
         private AuthorDTO authorInfo;
         private int allowRelay;

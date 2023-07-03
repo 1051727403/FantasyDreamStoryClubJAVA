@@ -7,7 +7,7 @@ import lombok.Data;
 * */
 @Data
 public class UserDTO {
-    long id;
+    Long id;
     String username;
     String nickname;
     String avatarUrl;
