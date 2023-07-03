@@ -62,4 +62,15 @@ public class SqlProvider {
         return sql2.toString();
 
     }
+
+    public String announce(@io.lettuce.core.dynamic.annotation.Param("page") Integer page) {
+        return new SQL() {{
+            SELECT("*");
+            FROM("announcement");
+            WHERE("is_activity = 0");
+            ORDER_BY("create_time DESC");
+            LIMIT(String.format("10 OFFSET %d", (page - 1) * 10));
+        }}.toString();
+
+    }
 }

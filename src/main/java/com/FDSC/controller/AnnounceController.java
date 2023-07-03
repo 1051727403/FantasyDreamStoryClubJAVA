@@ -23,6 +23,12 @@ public class AnnounceController {
     @GetMapping("/twoAnnounce")
     public Result twoAnnounce() { return announceService.twoAnnounce(); }
 
+    @GetMapping("/allAnnounce")
+    public Result allAnnounce(@RequestParam Integer page) { return announceService.allAnnounce(page); }
+
     @GetMapping("/announce")
     public Result announce(@RequestParam Integer id) { return announceService.getAnnounce(id); }
+
+    @GetMapping("/announceNum")
+    public Result announceNum() { return announceService.announceNum(); }
 }

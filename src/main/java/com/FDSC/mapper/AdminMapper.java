@@ -13,4 +13,12 @@ public interface AdminMapper {
     boolean deleteUser(String userId);
 
     boolean deleteBatchUser(List<Integer> userId);
+
+
+    @Update("delete from tag " +
+            "where id=#{tagId}")
+    boolean deleteTag(String tagId);
+
+    boolean deleteBatchTag(List<Integer> tagIds);
+
 }
