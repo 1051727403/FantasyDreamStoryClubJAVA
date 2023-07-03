@@ -152,10 +152,9 @@ public class StoryService extends ServiceImpl<StoryMapper, Story> {
     }
 
     public Result StoriesWithFragment(String userid) {
-
-            try{
-                return Result.success(storyMapper.StoriessWithFragment(userid));
-            }
+        try{
+            return Result.success(storyMapper.StoriessWithFragment(userid));
+        }
         catch (Exception e){
             return Result.error(Constants.CODE_500,"获取失败4");
         }
