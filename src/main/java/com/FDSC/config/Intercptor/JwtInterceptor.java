@@ -51,6 +51,17 @@ public class JwtInterceptor implements HandlerInterceptor {
         } catch (JWTVerificationException e) {
             throw new ServiceException(Constants.CODE_401,"token验证失败，请重新登录!");
         }
+        // 检查用户是否为管理员
+        if (user.getIsAdmin()==1) {
+            return true; // 用户是管理员，放行请求
+        }
+
+        // 用户不是管理员，检查请求路径是否带有前缀 "/admin"
+        String requestURI = request.getRequestURI();
+        if (requestURI.startsWith("/admin")) {
+            throw new ServiceException(Constants.CODE_401, "非管理员，无权限访问该接口！");
+        }
+
         return true;
     }
 }
