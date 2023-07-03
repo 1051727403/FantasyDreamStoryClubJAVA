@@ -100,12 +100,15 @@ public class FragmentController {
         return fragmentService.changeCollection(userId,fragmentId,beCollection);
     }
 
-    @GetMapping("/getFragInfo")
-    public Result getFragInfo(@RequestParam String userid){
-        return fragmentService.getFragInfo(userid);
+    @GetMapping("/getUserFrag")
+    public Result getUserFrag(@RequestParam String userid){
+        return fragmentService.getUserFrag(userid);
     }
 
-
+    @GetMapping("/getCollectFrag")
+    public Result getCollectFrag(@RequestParam String userid){
+        return fragmentService.getCollectFrag(userid);
+    }
 
 
 

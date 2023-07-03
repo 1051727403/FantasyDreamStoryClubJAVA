@@ -58,4 +58,14 @@ public interface FragmentMapper extends BaseMapper<Fragment> {
             "WHERE\n" +
             "    fragment.story_id = #{storyId};")
     List<FragmentAndUserInfo> selectByStoryId(long storyId);
+    @Select("Select story_name as storyName,fragment.fragment_name as fragName," +
+            "fragment.total_like as totalLike,fragment.total_collection as totalCollection," +
+            "fragment.total_comment as totalComment,left(content,20) as content," +
+            " story.id as storyId,fragment.id as fragmentId" +
+            " from fragment,story,fragment_like_collection " +
+            " where fragment.story_id=story.id " +
+            " and fragment.id = fragment_like_collection.fragment_id " +
+            " and fragment_like_collection.user_id=#{userid} " +
+            " and fragment_like_collection.is_collection = 1")
+    List<FragmentInfoDto> collectfrag(String userid);
 }
