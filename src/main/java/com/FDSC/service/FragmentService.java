@@ -233,7 +233,7 @@ public class FragmentService extends ServiceImpl<FragmentMapper, Fragment> {
         res.put("totalComment",totalComment);
         return Result.success(res);
     }
-    public Result getFragInfo(String userid) {
+    public Result getUserFrag(String userid) {
         try{
             return Result.success(fragmentMapper.usersfrag(userid));
         }
@@ -241,8 +241,6 @@ public class FragmentService extends ServiceImpl<FragmentMapper, Fragment> {
             return Result.error(Constants.CODE_500,"获取失败");
         }
     }
-
-
     //插入非根节点
     public Result addFragment(AddFragmentDto addFragmentDto) {
         Fragment fragment=new Fragment();
@@ -268,8 +266,6 @@ public class FragmentService extends ServiceImpl<FragmentMapper, Fragment> {
         }
 //        return Result.success();
     }
-
-
     //删除片段
     public Result deleteFragment(Long fragmentId) {
         try {
@@ -278,10 +274,7 @@ public class FragmentService extends ServiceImpl<FragmentMapper, Fragment> {
         }catch (Exception e){
             throw new ServerRtException(Constants.CODE_500,"删除失败！");
         }
-
-
     }
-
     //点赞还是取消点赞
     public Result changeLike(Long userId, Long fragmentId,boolean beLike) {
             //是否存在点赞信息
@@ -304,7 +297,6 @@ public class FragmentService extends ServiceImpl<FragmentMapper, Fragment> {
                     throw new ServerRtException(Constants.CODE_500,"插入失败！");
                 }
             }
-
             return Result.success();
     }
     //收藏还是取消收藏
@@ -329,11 +321,7 @@ public class FragmentService extends ServiceImpl<FragmentMapper, Fragment> {
                 throw new ServerRtException(Constants.CODE_500,"插入失败！");
             }
         }
-
         return Result.success();
-
-
-
     }
 
     //修改片段信息
@@ -347,12 +335,20 @@ public class FragmentService extends ServiceImpl<FragmentMapper, Fragment> {
         fragment.setFragmentName(updateFragmentDto.getFragmentName());
         fragment.setContent(updateFragmentDto.getContent());
         fragment.setAllowRelay(updateFragmentDto.getAllowRelay());
-
         try {
             fragmentMapper.updateById(fragment);
             return Result.success(fragment);
         }catch (Exception e){
             throw new ServerRtException(Constants.CODE_500,"更新片段失败！");
+        }
+    }
+
+    public Result getCollectFrag(String userid) {
+        try{
+            return Result.success(fragmentMapper.collectfrag(userid));
+        }
+        catch (Exception e){
+            return Result.error(Constants.CODE_500,"获取失败");
         }
     }
 }

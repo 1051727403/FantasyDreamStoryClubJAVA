@@ -83,6 +83,12 @@ public class StoryController {
                                @RequestParam String storyId){
         return storyService.checkCollect(userId,storyId);
     }
+    @PostMapping("/deleteStory")
+    public  Result deleteStory(@RequestParam String storyId,
+                               @RequestParam String token,
+                               @RequestParam String userId){
+        return storyService.deleteStory(storyId,userId,token);
+    }
 
 
 }

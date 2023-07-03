@@ -61,4 +61,9 @@ public class TokenUtils {
         return null;
     }
 
+    public static boolean decodeUserId(String token,String userid){
+        String res = JWT.decode(token).getAudience().get(0);
+        return res.equals(userid);
+    }
+
 }

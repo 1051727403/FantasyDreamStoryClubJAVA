@@ -2,8 +2,12 @@ package com.FDSC.service;
 
 
 import cn.hutool.core.util.StrUtil;
+import com.FDSC.utils.TokenUtils;
+import com.auth0.jwt.JWT;
 import com.FDSC.common.Constants;
 import com.FDSC.common.Result;
+
+import java.sql.Wrapper;
 import java.time.Duration;
 
 import com.FDSC.controller.dto.StoryItemDto;
@@ -12,6 +16,7 @@ import com.FDSC.entity.Story;
 import com.FDSC.mapper.AnnounceMapper;
 import com.FDSC.mapper.StoryMapper;
 import com.FDSC.mapper.dto.StoryLatestTempDto;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.util.StringUtil;
@@ -157,5 +162,23 @@ public class StoryService extends ServiceImpl<StoryMapper, Story> {
         }catch (Exception e){
             return Result.error(Constants.CODE_500,"数据错误");
         }
+    }
+
+    public Result deleteStory(String storyId,String userId, String token) {
+        try{
+            if(TokenUtils.decodeUserId(token,userId)){
+                QueryWrapper<Story> storyWrapper = new QueryWrapper<>();
+                storyWrapper.eq("id",storyId);
+                System.out.println(storyId);
+                return Result.success(storyMapper.delete(storyWrapper));
+            }
+            else{
+                return Result.error(Constants.CODE_401,"权限不足");
+            }
+        }
+        catch (Exception e){
+            return Result.error(Constants.CODE_400,"参数错误");
+        }
+
     }
 }
