@@ -22,7 +22,7 @@ public class FragmentController {
      * @return Result
      * */
     @GetMapping("/loadAllFragment")
-    public Result loadAllFragment(@RequestParam long storyId){
+    public Result loadAllFragment(@RequestParam Long storyId){
         return fragmentService.loadAllFragment(storyId);
     }
 
@@ -32,8 +32,8 @@ public class FragmentController {
      * @return Result
      * */
     @GetMapping("/loadauthorInfoAndComment")
-    public Result loadAuthorAndComment(@RequestParam long fragmentId,
-                                       @RequestParam long userId){
+    public Result loadAuthorAndComment(@RequestParam Long fragmentId,
+                                       @RequestParam Long userId){
         return fragmentService.loadAuthorAndComment(fragmentId,userId);
     }
     /**
