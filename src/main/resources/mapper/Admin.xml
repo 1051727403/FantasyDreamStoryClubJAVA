@@ -19,4 +19,11 @@ mapper接口代理实现编写规则:
         </foreach>
 
     </update>
+    <delete id="deleteBatchTag">
+        delete from tag
+        where
+        <foreach collection="tagIds" item="id" index="index" separator=" or " >
+            id  = #{id}
+        </foreach>
+    </delete>
 </mapper>
