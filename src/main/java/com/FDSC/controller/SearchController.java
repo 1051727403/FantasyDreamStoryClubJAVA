@@ -23,13 +23,14 @@ public class SearchController {
     @GetMapping("/search")
     public Result search(@RequestParam Long tag,
                          @RequestParam String sort,
-                         @RequestParam Integer page) {
-        return searchService.search(tag, sort, page);
+                         @RequestParam Integer page,
+                         @RequestParam String keyWord) {
+        return searchService.search(tag, sort, page, keyWord);
     }
 
     @GetMapping("/storyNum")
-    public Result pageNum(@RequestParam Long tag) {
-        return searchService.storyNum(tag);
+    public Result pageNum(@RequestParam Long tag, @RequestParam String keyWord) {
+        return searchService.storyNum(tag, keyWord);
     }
 
 }
