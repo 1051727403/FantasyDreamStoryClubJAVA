@@ -2,10 +2,7 @@ package com.FDSC.controller;
 
 import com.FDSC.common.Constants;
 import com.FDSC.common.Result;
-import com.FDSC.entity.Announcement;
-import com.FDSC.entity.Story;
-import com.FDSC.entity.Tag;
-import com.FDSC.entity.User;
+import com.FDSC.entity.*;
 import com.FDSC.service.*;
 import com.FDSC.service.AdminService;
 import com.FDSC.service.FragmentService;
