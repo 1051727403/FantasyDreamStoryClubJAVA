@@ -39,6 +39,7 @@ public class WaterOrderService extends ServiceImpl<WaterOrderMapper, WaterOrder>
     public boolean saveOrUpdateBatch(Collection<WaterOrder> entityList) {
         return super.saveOrUpdateBatch(entityList);
     }
+
     //导出数据
     public void export(HttpServletResponse response) throws Exception {
         //从数据库查出数据

@@ -5,12 +5,7 @@ import com.FDSC.common.Result;
 import com.FDSC.controller.dto.AddFragmentDto;
 import com.FDSC.controller.dto.UpdateFragmentDto;
 import com.FDSC.entity.Fragment;
-import com.FDSC.entity.User;
 import com.FDSC.service.FragmentService;
-import com.FDSC.utils.TokenUtils;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -106,13 +101,13 @@ public class FragmentController {
     }
 
     @GetMapping("/getUserFrag")
-    public Result getUserFrag(@RequestParam String userid){
-        return fragmentService.getUserFrag(userid);
+    public Result getUserFrag(@RequestParam String userId){
+        return fragmentService.getUserFrag(userId);
     }
 
     @GetMapping("/getCollectFrag")
-    public Result getCollectFrag(@RequestParam String userid){
-        return fragmentService.getCollectFrag(userid);
+    public Result getCollectFrag(@RequestParam String userId){
+        return fragmentService.getCollectFrag(userId);
     }
 
 

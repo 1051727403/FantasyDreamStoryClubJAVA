@@ -1,9 +1,6 @@
 package com.FDSC.controller;
 
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.poi.excel.ExcelReader;
-import cn.hutool.poi.excel.ExcelUtil;
-import cn.hutool.poi.excel.ExcelWriter;
 import com.FDSC.common.Constants;
 import com.FDSC.common.Result;
 import com.FDSC.entity.User;
@@ -11,24 +8,14 @@ import com.FDSC.exception.ServiceException;
 import com.FDSC.service.UserService;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.exceptions.JWTDecodeException;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.FDSC.controller.dto.UserDTO;
 import com.FDSC.controller.dto.UserInfoDto;
-import com.FDSC.utils.TokenUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletResponse;
-import java.io.InputStream;
-import java.net.URLEncoder;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
+
+
 import java.util.Map;
 
 @RestController
@@ -72,8 +59,8 @@ public class UserController {
 
 
     @GetMapping("/getUserInfo")
-    public Result getUserInfo(@RequestParam String userid) {
-        User user= userService.getById(userid);
+    public Result getUserInfo(@RequestParam String userId) {
+        User user= userService.getById(userId);
         UserDTO u = new UserDTO();
         BeanUtils.copyProperties(user,u);
         return Result.success(u);
@@ -81,12 +68,6 @@ public class UserController {
     @PostMapping("/upUserInfo")
     public Result upUserInfo(@RequestBody UserInfoDto user) {
         return userService.upUserInfo(user);
-    }
-    @PostMapping("/changepw")
-    public Result changepw(@RequestParam String username,
-                           @RequestParam String password,
-                           @RequestParam String newpassword){
-        return Result.success(userService.changepw(username,password,newpassword));
     }
     //没有任何用处，仅作为token校验
     @PostMapping("/token")
@@ -104,12 +85,11 @@ public class UserController {
         }
 
     }
-
     @PostMapping("/changePassword")
     public  Result changePassword(@RequestParam String userName,
                                   @RequestParam String oldPassword,
                                   @RequestParam String newPassword){
-        return Result.success(userService.changepw(userName,oldPassword,newPassword));
+        return Result.success(userService.changePassword(userName,oldPassword,newPassword));
     }
 
 

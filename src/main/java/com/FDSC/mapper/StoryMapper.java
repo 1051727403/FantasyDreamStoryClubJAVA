@@ -39,36 +39,33 @@ public interface StoryMapper extends BaseMapper<Story> {
             "from story ORDER BY total_like DESC")
     public List<StoryItemDto> getHotStory();
 
-    @Select("Select tag_name from tag,story_tag where tag.id=tag_id and story_id=#{storyid}")
-    public List<String> gettag(String storyid);
+    @Select("Select tag_name from tag,story_tag where tag.id=tag_id and story_id=#{storyId}")
+    public List<String> gettag(String storyId);
 
-    @Select("Select tag.id from tag,story_tag where tag.id=tag_id and story_id=#{storyid}")
-    public List<String> gettagid(String storyid);
+    @Select("Select tag.id from tag,story_tag where tag.id=tag_id and story_id=#{storyId}")
+    public List<String> gettagId(String storyId);
 
-    @Insert("Insert into story_collection(user_id,story_id) values(#{userid},#{storyid})")
-    public boolean collected(String storyid, String userid);
+    @Insert("Insert into story_collection(user_id,story_id) values(#{userId},#{storyId})")
+    public boolean collected(String storyId, String userId);
 
-    @Delete("Delete from story_collection where story_id=#{storyid} and user_id=#{userid}")
-    boolean uncollected(String storyid, String userid);
+    @Delete("Delete from story_collection where story_id=#{storyId} and user_id=#{userId}")
+    boolean uncollected(String storyId, String userId);
     @Select("Select id as storyId,total_like,total_collection,total_comment,story_name,cover_url,story.user_id as userId " +
             " from story " +
-            " where user_id=#{userid}")
-    List<StoryItemDto> usersStories(String userid);
+            " where user_id=#{userId}")
+    List<StoryItemDto> usersStories(String userId);
 
     @Select("Select story.id as storyId,total_like,total_collection,total_comment,story_name,cover_url,story.user_id as userId " +
             "from story,story_collection " +
             "where story.id=story_id " +
-            "and story_collection.user_id=#{userid}")
-    List<StoryItemDto>  collectedStories(String userid);
+            "and story_collection.user_id=#{userId}")
+    List<StoryItemDto>  collectedStories(String userId);
 
     @Select("Select distinct story.id as storyId,story.total_like,story.total_collection,story.total_comment,story_name,cover_url " +
             " from story,fragment " +
-            " where story.user_id=#{userid} " +
-            " or fragment.user_id=#{userid} and fragment.story_id=story.id")
-    List<StoryItemDto> StoriessWithFragment(String userid);
-
-    //@Insert("Insert story_tag(story_id,tag_id) values (#{storyid},#{tagid})")
-    boolean settag(Long storyid, List<Integer> tags);
+            " where story.user_id=#{userId} " +
+            " or fragment.user_id=#{userId} and fragment.story_id=story.id")
+    List<StoryItemDto> StoriesWithFragment(String userId);
 
     @Select("Select count(*) from story_collection where user_id=#{userId} and story_id=#{storyId}")
     boolean checkCollect(String userId, String storyId);

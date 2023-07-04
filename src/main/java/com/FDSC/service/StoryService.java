@@ -36,27 +36,22 @@ public class StoryService extends ServiceImpl<StoryMapper, Story> {
     @Autowired
     private StoryMapper storyMapper;
 
-    public List<String> getStoryTag(String storyid){   return storyMapper.gettag(storyid);}
+    public List<String> getStoryTag(String storyId){   return storyMapper.gettag(storyId);}
 
-    public List<String> getStoryTagid(String storyid){   return storyMapper.gettagid(storyid);}
-
-    public void setStoryTag(Long storyid,List<Integer> tags){
-
-        storyMapper.settag(storyid,tags);
-    }
+    public List<String> getStoryTagId(String storyId){   return storyMapper.gettagId(storyId);}
 
 
-    public Result collecteStory(String storyid, String userid) {
+    public Result collectStory(String storyId, String userId) {
         try{
-            return Result.success(storyMapper.collected(storyid,userid));
+            return Result.success(storyMapper.collected(storyId,userId));
         }catch (Exception e){
             return Result.error(Constants.CODE_500,"已收藏");
         }
     }
 
-    public Result uncollecteStory(String storyid, String userid) {
+    public Result unCollectStory(String storyId, String userId) {
         try{
-            return Result.success(storyMapper.uncollected(storyid,userid));
+            return Result.success(storyMapper.uncollected(storyId,userId));
         }catch (Exception e){
             return Result.error(Constants.CODE_500,"取消收藏失败");
         }
@@ -131,26 +126,26 @@ public class StoryService extends ServiceImpl<StoryMapper, Story> {
         }
     }
 
-    public Result usersStories(String userid) {
+    public Result usersStories(String userId) {
         try{
-            return Result.success(storyMapper.usersStories(userid));
+            return Result.success(storyMapper.usersStories(userId));
         }
         catch (Exception e){
             return Result.error(Constants.CODE_500,"获取失败");
         }
     }
 
-    public Result usersCollectStories(String userid) {
+    public Result usersCollectStories(String userId) {
         try{
-            return Result.success(storyMapper.collectedStories(userid));
+            return Result.success(storyMapper.collectedStories(userId));
         }catch (Exception e){
             return Result.error(Constants.CODE_500,"已收藏");
         }
     }
 
-    public Result StoriesWithFragment(String userid) {
+    public Result StoriesWithFragment(String userId) {
         try{
-            return Result.success(storyMapper.StoriessWithFragment(userid));
+            return Result.success(storyMapper.StoriesWithFragment(userId));
         }
         catch (Exception e){
             return Result.error(Constants.CODE_500,"获取失败4");
