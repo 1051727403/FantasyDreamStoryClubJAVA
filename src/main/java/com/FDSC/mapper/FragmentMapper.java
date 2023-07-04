@@ -70,6 +70,6 @@ public interface FragmentMapper extends BaseMapper<Fragment> {
             " and fragment_like_collection.is_collection = 1")
     List<FragmentInfoDto> collectfrag(String userid);
 
-    @Update("update fragment set fragment_name='',content='' where id=#{fragmentId}")
+    @Update("Update fragment set fragment_name='',content='' where id=#{fragmentId}")
     void updateBlank(Long fragmentId);
 }
