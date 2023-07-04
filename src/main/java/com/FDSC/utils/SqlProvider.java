@@ -10,7 +10,7 @@ public class SqlProvider {
         SQL sql1 = new SQL()
                 .SELECT("s.id AS story_id, s.user_id, s.total_like, s.total_collection, s.total_comment, s.story_name, " +
                         "s.introduce, s.cover_url, s.create_time, s.update_time, tag.id AS tag_id, tag.tag_name")
-                .FROM(String.format("(SELECT * FROM story ORDER BY update_time DESC LIMIT 15 OFFSET %d) AS s", (page - 1) * 15))
+                .FROM(String.format("(SELECT * FROM story ORDER BY %s DESC, update_time DESC LIMIT 15 OFFSET %d) AS s", sort, (page - 1) * 15))
                 .LEFT_OUTER_JOIN("story_tag st ON s.id = st.story_id")
                 .LEFT_OUTER_JOIN("tag ON tag.id = st.tag_id")
                 .WHERE(String.format("(CONCAT(s.story_name,s.introduce) LIKE '%%%s%%') OR tag_name LIKE '%%%s%%'", keyWord, keyWord))
