@@ -7,6 +7,14 @@ import com.FDSC.entity.Story;
 import com.FDSC.entity.Tag;
 import com.FDSC.entity.User;
 import com.FDSC.service.*;
+import com.FDSC.service.AdminService;
+import com.FDSC.service.FragmentService;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.FDSC.service.StoryService;
+import com.FDSC.service.TagService;
+import com.FDSC.service.UserService;
 import com.FDSC.utils.TokenUtils;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -19,6 +27,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/admin")
 public class AdminController {
+    @Autowired
+    private FragmentService fragmentService;
     @Autowired
     private AdminService adminService;
     @Autowired
@@ -118,6 +128,27 @@ public class AdminController {
         queryWrapper.like("content",search);
         queryWrapper.orderByDesc("id");
         return storyService.page(page,queryWrapper);
+    }
+
+    @GetMapping("/fragment/page")
+    public IPage<Fragment> findPage(@RequestParam Integer pageNum,
+                                    @RequestParam Integer pageSize,
+                                    @RequestParam (defaultValue = "")String search){
+        //若没有传值，则赋默认值，防止将所有数据筛选出来
+        IPage<Fragment> page=new Page<>(pageNum,pageSize);
+        QueryWrapper queryWrapper=new QueryWrapper<User>();
+        queryWrapper.like("id",search);
+        queryWrapper.or();
+        queryWrapper.like("user_id",search);
+        queryWrapper.or();
+        queryWrapper.like("parent_id",search);
+        queryWrapper.or();
+        queryWrapper.like("fragment_name",search);
+        queryWrapper.or();
+        queryWrapper.like("content",search);
+        queryWrapper.orderByDesc("id");
+        //后台获取用户登录信息
+        return fragmentService.page(page,queryWrapper);
     }
 
 }

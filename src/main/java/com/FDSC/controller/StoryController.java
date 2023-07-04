@@ -4,11 +4,14 @@ import com.FDSC.common.Constants;
 import com.FDSC.common.Result;
 import com.FDSC.controller.dto.StoryNewDto;
 import com.FDSC.entity.Story;
+import com.FDSC.entity.StoryTag;
 import com.FDSC.service.StoryService;
+import com.FDSC.service.StoryTagService;
 import com.FDSC.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -17,7 +20,7 @@ public class StoryController {
     @Autowired
     private StoryService storyService;
     @Autowired
-    private TagService tagService;
+    private StoryTagService storyTagService;
 
 
     @GetMapping("/getStoryInfo")
@@ -70,14 +73,24 @@ public class StoryController {
     public Result saveStory(@RequestBody StoryNewDto story){
         try{
             Story one = new Story();
+            one.setId(story.getId());
             one.setStoryName(story.getStoryName());
             one.setUserId(story.getUserId());
             one.setIntroduce(story.getIntroduce());
             one.setCoverUrl(story.getCoverUrl());
             storyService.saveOrUpdate(one);
-            List<Integer> tags = story.getTags();
+            List<Long> tags = story.getTags();
             System.out.println(tags);
-            if(tags!= null && !tags.isEmpty()) storyService.setStoryTag(one.getId(),story.getTags());
+            if(tags!= null && !tags.isEmpty()) {
+                List<StoryTag> list = new ArrayList<>();
+                for (Long tagId:tags) {
+                    StoryTag storyTag = new StoryTag();
+                    storyTag.setStoryId(one.getId());
+                    storyTag.setTagId(tagId);
+                    list.add(storyTag);
+                }
+                storyTagService.saveOrUpdateBatch(list);
+            }
             return Result.success(one.getId());
         }catch (Exception e){
             return Result.error(Constants.CODE_500,"数据缺失");
