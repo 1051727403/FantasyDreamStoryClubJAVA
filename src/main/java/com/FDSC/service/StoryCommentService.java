@@ -40,10 +40,7 @@ public class StoryCommentService extends ServiceImpl<StoryCommentMapper, StoryCo
             return Result.success();
         }catch (Exception e){
             throw new ServerRtException(Constants.CODE_500,"保存失败！");
-
         }
-
-
     }
 
     //删除评论

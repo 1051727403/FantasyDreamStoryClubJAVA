@@ -233,9 +233,9 @@ public class FragmentService extends ServiceImpl<FragmentMapper, Fragment> {
         res.put("totalComment",totalComment);
         return Result.success(res);
     }
-    public Result getUserFrag(String userid) {
+    public Result getUserFrag(String userId) {
         try{
-            return Result.success(fragmentMapper.usersfrag(userid));
+            return Result.success(fragmentMapper.usersFragment(userId));
         }
         catch (Exception e){
             return Result.error(Constants.CODE_500,"获取失败");
@@ -351,9 +351,9 @@ public class FragmentService extends ServiceImpl<FragmentMapper, Fragment> {
         }
     }
 
-    public Result getCollectFrag(String userid) {
+    public Result getCollectFrag(String userId) {
         try{
-            return Result.success(fragmentMapper.collectfrag(userid));
+            return Result.success(fragmentMapper.collectfrag(userId));
         }
         catch (Exception e){
             return Result.error(Constants.CODE_500,"获取失败");

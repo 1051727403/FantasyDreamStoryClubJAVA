@@ -10,11 +10,5 @@ mapper接口代理实现编写规则:
     4,映射文件中返回结果集类型要等于接口方法的返回值类型
 -->
 <mapper namespace="com.FDSC.mapper.StoryMapper">
-    <insert id="settag" >
-            insert into story_tag(story_id,tag_id) values
-        <foreach collection="tags" item="tag" index="index" separator="," >
-            (#{storyid},#{tag})
-        </foreach>
 
-    </insert>
 </mapper>

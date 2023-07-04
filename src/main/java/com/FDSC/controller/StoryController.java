@@ -7,7 +7,6 @@ import com.FDSC.entity.Story;
 import com.FDSC.entity.StoryTag;
 import com.FDSC.service.StoryService;
 import com.FDSC.service.StoryTagService;
-import com.FDSC.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,29 +23,29 @@ public class StoryController {
 
 
     @GetMapping("/getStoryInfo")
-    public Result getStory(@RequestParam String storyid){
-        return Result.success(storyService.getById(storyid));
+    public Result getStory(@RequestParam String storyId){
+        return Result.success(storyService.getById(storyId));
     }
 
     @GetMapping("/getStoryTag")
-    public Result getStoryTag(@RequestParam String storyid){
-        return Result.success(storyService.getStoryTag(storyid));
+    public Result getStoryTag(@RequestParam String storyId){
+        return Result.success(storyService.getStoryTag(storyId));
     }
-    @GetMapping("/getStoryTagid")
-    public Result getStoryTagid(@RequestParam String storyid){
-        return Result.success(storyService.getStoryTagid(storyid));
+    @GetMapping("/getStoryTagId")
+    public Result getStoryTagid(@RequestParam String storyId){
+        return Result.success(storyService.getStoryTagId(storyId));
     }
 
-    @PostMapping("/collecteStory")
-    public Result collecteStory(@RequestParam String storyid,
-                                @RequestParam String userid){
-      return storyService.collecteStory(storyid,userid);
+    @PostMapping("/collectStory")
+    public Result collecteStory(@RequestParam String storyId,
+                                @RequestParam String userId){
+      return storyService.collectStory(storyId,userId);
     };
 
-    @PostMapping("uncollectStory")
-    public Result uncollectStory(@RequestParam String storyid,
-                                 @RequestParam String userid){
-        return storyService.uncollecteStory(storyid,userid);
+    @PostMapping("/uncollectStory")
+    public Result uncollectStory(@RequestParam String storyId,
+                                 @RequestParam String userId){
+        return storyService.unCollectStory(storyId,userId);
     }
 
     @GetMapping("/recommendStory")
@@ -61,13 +60,13 @@ public class StoryController {
     public Result hotStory() { return storyService.hotStory(); }
 
     @GetMapping("/usersStories")
-    public Result usersStories(@RequestParam String userid){return storyService.usersStories(userid);}
+    public Result usersStories(@RequestParam String userId){return storyService.usersStories(userId);}
 
     @GetMapping("/usersStoriesWithFragment")
-    public Result usersStoriesWithFragment(@RequestParam String userid){return storyService.StoriesWithFragment(userid);}
+    public Result usersStoriesWithFragment(@RequestParam String userId){return storyService.StoriesWithFragment(userId);}
 
     @GetMapping("/usersCollectStories")
-    public Result usersCollectStories(@RequestParam String userid){return storyService.usersCollectStories(userid);}
+    public Result usersCollectStories(@RequestParam String userId){return storyService.usersCollectStories(userId);}
 
     @PostMapping("/saveStory")
     public Result saveStory(@RequestBody StoryNewDto story){

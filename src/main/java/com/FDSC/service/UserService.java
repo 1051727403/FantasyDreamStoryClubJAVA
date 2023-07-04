@@ -71,7 +71,7 @@ public class UserService extends ServiceImpl<UserMapper, User> {
         User one=getUserInfo(user.getUsername(),"");
         UserDTO userDTO=new UserDTO();
         if(one==null){
-            userMapper.saveuser(user);
+            userMapper.saveUser(user);
             BeanUtils.copyProperties(user,userDTO);
             //头像不用设置
             return userDTO;
@@ -106,7 +106,7 @@ public class UserService extends ServiceImpl<UserMapper, User> {
             u.setPassword(user.getPassword());
             if(user.getId() == null ){
                 try {
-                    return Result.success(userMapper.saveuser(u));
+                    return Result.success(userMapper.saveUser(u));
                 }
                 catch (Exception e){
                     return Result.error(Constants.CODE_500, "注册失败,重复用户名");
@@ -123,10 +123,10 @@ public class UserService extends ServiceImpl<UserMapper, User> {
 
     }
 
-    public boolean changepw(String userName, String password, String newpassword) {
+    public boolean changePassword(String userName, String password, String newPassword) {
         User one= getUserInfo(userName,password);
         if(one!=null){
-            one.setPassword(newpassword);
+            one.setPassword(newPassword);
             updateById(one);
         }
         else{
