@@ -29,6 +29,7 @@ public class InterceptorConfig implements WebMvcConfigurer {
                                     "/story/getStoryInfo","/story/getStoryTag","/story/slideShow","/story/latestStory","/story/hotStory","/story/usersStories","/story/usersStoriesWithFragment","/story/usersCollectStories","/story/checkCollect","/story/recommendStory",
                                     "/storyComment/loadStoryComment",
                                     "/tag/getTags",
+                                    "/upload/**",
                                     "/search/**",
                                     "/fragment/loadAllFragment","/fragment/loadauthorInfoAndComment","/fragment/getFragInfo",
                                     "/announce/**");//这些接口不验证,暂时接口全部开放"

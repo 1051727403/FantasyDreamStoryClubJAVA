@@ -22,11 +22,14 @@ public class FileUploadController {
     public Result uploadimg(@RequestParam MultipartFile photo) throws IOException {
         String  fileName = null;
         if(!photo.isEmpty()){
+
             String originalFilename = photo.getOriginalFilename();
 
             String suffixName = originalFilename.substring(originalFilename.lastIndexOf('.'));
 
             fileName = UUID.randomUUID().toString()+suffixName;
+
+            System.out.println(fileName);
 
             photo.transferTo(new File(uploadPath+fileName));
         }

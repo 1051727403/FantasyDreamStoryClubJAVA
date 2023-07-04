@@ -175,7 +175,7 @@ public class StoryService extends ServiceImpl<StoryMapper, Story> {
             }
         }
         catch (Exception e){
-            return Result.error(Constants.CODE_400,"无法删除");
+            return Result.error(Constants.CODE_400,"存在子节点，无法删除");
         }
 
     }
