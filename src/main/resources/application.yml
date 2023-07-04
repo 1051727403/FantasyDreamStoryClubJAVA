@@ -14,8 +14,7 @@ spring:
   web:
     resources:
       static-locations: file:D://image//
-  mvc:
-    static-path-pattern: /image/**
+
 #扫描所有mybatis的xml文件
 mybatis:
   mapper-locations: classpath:mapper/*.xml
