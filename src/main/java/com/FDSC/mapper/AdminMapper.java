@@ -1,5 +1,6 @@
 package com.FDSC.mapper;
 
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Update;
 
@@ -15,10 +16,12 @@ public interface AdminMapper {
     boolean deleteBatchUser(List<Integer> userId);
 
 
-    @Update("delete from tag " +
+    @Delete("delete from tag " +
             "where id=#{tagId}")
     boolean deleteTag(String tagId);
 
     boolean deleteBatchTag(List<Integer> tagIds);
-
+    @Delete("delete from story " +
+            "where id=#{storyId}")
+    boolean deleteStory(String storyId);
 }

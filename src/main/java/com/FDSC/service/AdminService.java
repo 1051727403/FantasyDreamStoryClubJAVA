@@ -12,7 +12,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.sql.Wrapper;
 import java.util.List;
 
 @Service
@@ -20,8 +19,6 @@ import java.util.List;
 public class AdminService {
     @Autowired
     private AdminMapper adminMapper;
-    @Autowired
-    private TagService tagService;
 
     public Result deleteUser(String userId) {
         try{
@@ -55,12 +52,9 @@ public class AdminService {
         }
     }
 
-    public Result addOrUpdateTag(Tag tag) {
+    public Result deleteStory(String storyId) {
         try{
-            System.out.println(tag.getId());
-            System.out.println(tag.getTagName());
-
-            return Result.success(tagService.saveOrUpdate(tag));
+            return Result.success(adminMapper.deleteStory(storyId));
         }catch (Exception e){
             return Result.error(Constants.CODE_500,e.getMessage());
         }

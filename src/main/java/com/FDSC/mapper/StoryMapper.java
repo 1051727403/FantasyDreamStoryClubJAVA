@@ -42,6 +42,9 @@ public interface StoryMapper extends BaseMapper<Story> {
     @Select("Select tag_name from tag,story_tag where tag.id=tag_id and story_id=#{storyid}")
     public List<String> gettag(String storyid);
 
+    @Select("Select tag.id from tag,story_tag where tag.id=tag_id and story_id=#{storyid}")
+    public List<String> gettagid(String storyid);
+
     @Insert("Insert into story_collection(user_id,story_id) values(#{userid},#{storyid})")
     public boolean collected(String storyid, String userid);
 

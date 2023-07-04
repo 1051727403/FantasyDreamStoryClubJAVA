@@ -6,6 +6,7 @@ import java.util.List;
 
 @Data
 public class StoryNewDto {
+    private Long storyId;
 
     private Long userId;
 
