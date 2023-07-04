@@ -2,10 +2,8 @@ package com.FDSC.controller;
 
 import com.FDSC.common.Constants;
 import com.FDSC.common.Result;
-import com.FDSC.entity.Fragment;
-import com.FDSC.entity.Story;
-import com.FDSC.entity.Tag;
-import com.FDSC.entity.User;
+import com.FDSC.entity.*;
+import com.FDSC.service.*;
 import com.FDSC.service.AdminService;
 import com.FDSC.service.FragmentService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -32,6 +30,8 @@ public class AdminController {
     private TagService tagService;
     @Autowired
     private StoryService storyService;
+    @Autowired
+    private AnnounceService announceService;
 
     @GetMapping("/userPage")
     public IPage<User> userPage(@RequestParam Integer pageNum,
@@ -105,6 +105,22 @@ public class AdminController {
     @PostMapping("/deleteStory")
     public Result deleteStory(@RequestParam String storyId){
         return adminService.deleteStory(storyId);
+    }
+
+    @GetMapping("/announcePage")
+    public IPage<Announcement> announcePage(@RequestParam Integer pageNum,
+                                            @RequestParam Integer pageSize,
+                                            @RequestParam (defaultValue = "")String search){
+        //若没有传值，则赋默认值，防止将所有数据筛选出来
+        IPage<Story> page=new Page<>(pageNum,pageSize);
+        QueryWrapper queryWrapper=new QueryWrapper<Story>();
+//        queryWrapper.like("username",search);
+//        queryWrapper.or();
+        queryWrapper.like("title",search);
+        queryWrapper.or();
+        queryWrapper.like("content",search);
+        queryWrapper.orderByDesc("id");
+        return storyService.page(page,queryWrapper);
     }
 
     @GetMapping("/fragment/page")
