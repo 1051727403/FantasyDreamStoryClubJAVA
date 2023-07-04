@@ -6,6 +6,7 @@ import java.util.List;
 
 @Data
 public class StoryNewDto {
+    private Long id;
     private Long storyId;
 
     private Long userId;
@@ -16,5 +17,5 @@ public class StoryNewDto {
 
     private String coverUrl;
 
-    private List<Integer> tags;
+    private List<Long> tags;
 }
