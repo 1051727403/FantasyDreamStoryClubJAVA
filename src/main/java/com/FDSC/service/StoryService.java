@@ -38,7 +38,10 @@ public class StoryService extends ServiceImpl<StoryMapper, Story> {
 
     public List<String> getStoryTag(String storyid){   return storyMapper.gettag(storyid);}
 
+    public List<String> getStoryTagid(String storyid){   return storyMapper.gettagid(storyid);}
+
     public void setStoryTag(Long storyid,List<Integer> tags){
+
         storyMapper.settag(storyid,tags);
     }
 
@@ -177,7 +180,7 @@ public class StoryService extends ServiceImpl<StoryMapper, Story> {
             }
         }
         catch (Exception e){
-            return Result.error(Constants.CODE_400,"参数错误");
+            return Result.error(Constants.CODE_400,"无法删除");
         }
 
     }

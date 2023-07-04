@@ -69,24 +69,8 @@ public class UserController {
     public Result save(@RequestBody User user){
         return Result.success(userService.saveUser(user));
     }
-    @GetMapping("/page")
-    public IPage<User> findPage(@RequestParam Integer pageNum,
-                                @RequestParam Integer pageSize,
-                                @RequestParam (defaultValue = "")String search){
-        //若没有传值，则赋默认值，防止将所有数据筛选出来
-        IPage<User> page=new Page<>(pageNum,pageSize);
-        QueryWrapper queryWrapper=new QueryWrapper<User>();
-//        queryWrapper.like("username",search);
-//        queryWrapper.or();
-        queryWrapper.like("username",search);
-        queryWrapper.or();
-        queryWrapper.like("nickname",search);
-        queryWrapper.orderByDesc("id");
-        //后台获取用户登录信息
-        User currentUser= TokenUtils.getUserInfo();
-        System.out.println("=========================当前用户信息:"+currentUser.getNickname());
-        return userService.page(page,queryWrapper);
-    }
+
+
     @GetMapping("/getUserInfo")
     public Result getUserInfo(@RequestParam String userid) {
         User user= userService.getById(userid);
