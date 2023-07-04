@@ -269,7 +269,15 @@ public class FragmentService extends ServiceImpl<FragmentMapper, Fragment> {
     //删除片段
     public Result deleteFragment(Long fragmentId) {
         try {
-            fragmentMapper.deleteById(fragmentId);
+            QueryWrapper<Fragment> wrapper=new QueryWrapper<>();
+            wrapper.eq("parent_id",fragmentId);
+            List<Fragment>fragmentList=fragmentMapper.selectList(wrapper);
+            if(fragmentList.size()!=0) {
+                //有子节点，更新内容和标题为空白
+                fragmentMapper.updateBlank(fragmentId);
+            }else {
+                fragmentMapper.deleteById(fragmentId);
+            }
             return Result.success();
         }catch (Exception e){
             throw new ServerRtException(Constants.CODE_500,"删除失败！");
@@ -349,6 +357,17 @@ public class FragmentService extends ServiceImpl<FragmentMapper, Fragment> {
         }
         catch (Exception e){
             return Result.error(Constants.CODE_500,"获取失败");
+        }
+    }
+
+
+
+    public Result saveFragment(Fragment fragment) {
+        try {
+            fragmentMapper.updateById(fragment);
+            return Result.success();
+        }catch (Exception e){
+            throw new ServerRtException(Constants.CODE_500,"管理员更新片段失败");
         }
     }
 }

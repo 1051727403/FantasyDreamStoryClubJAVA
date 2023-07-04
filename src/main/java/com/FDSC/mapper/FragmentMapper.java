@@ -8,6 +8,7 @@ import com.FDSC.mapper.dto.FragmentAndUserInfo;
 import com.FDSC.mapper.dto.FragmentMapperCommentDto;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import java.util.List;
 
@@ -68,4 +69,7 @@ public interface FragmentMapper extends BaseMapper<Fragment> {
             " and fragment_like_collection.user_id=#{userid} " +
             " and fragment_like_collection.is_collection = 1")
     List<FragmentInfoDto> collectfrag(String userid);
+
+    @Update("update fragment set fragment_name='',content='' where id=#{fragmentId}")
+    void updateBlank(Long fragmentId);
 }

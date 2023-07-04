@@ -147,5 +147,17 @@ public class AdminController {
         //后台获取用户登录信息
         return fragmentService.page(page,queryWrapper);
     }
+    @PostMapping("/fragment/saveFragment")
+    public Result saveFragment(@RequestBody Fragment fragment){
+        return fragmentService.saveFragment(fragment);
+    }
+
+    /**
+     * 管理员删除片段
+     * */
+    @GetMapping("/fragment/deleteFragment")
+    public Result saveFragment(@RequestParam Long fragmentId){
+        return fragmentService.deleteFragment(fragmentId);
+    }
 
 }
