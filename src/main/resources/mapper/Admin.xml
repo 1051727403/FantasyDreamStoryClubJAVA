@@ -26,4 +26,11 @@ mapper接口代理实现编写规则:
             id  = #{id}
         </foreach>
     </delete>
+    <delete id="deleteBatchAnnounce">
+        delete from announcement
+        where
+        <foreach collection="ids" item="id" index="index" separator=" or " >
+            id  = #{id}
+        </foreach>
+    </delete>
 </mapper>

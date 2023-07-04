@@ -2,6 +2,9 @@ package com.FDSC.controller;
 
 import com.FDSC.common.Constants;
 import com.FDSC.common.Result;
+import com.FDSC.controller.dto.AnnounceDto;
+import com.FDSC.controller.dto.SlideShowAnnounceDto;
+import com.FDSC.controller.dto.UserInfoDto;
 import com.FDSC.entity.*;
 import com.FDSC.service.*;
 import com.FDSC.service.AdminService;
@@ -100,7 +103,7 @@ public class AdminController {
         queryWrapper.or();
         queryWrapper.like("introduce",search);
         queryWrapper.orderByDesc("id");
-        return storyService.page(page,queryWrapper);
+        return storyService.page(page, queryWrapper);
     }
     @PostMapping("/deleteStory")
     public Result deleteStory(@RequestParam String storyId){
@@ -108,19 +111,43 @@ public class AdminController {
     }
 
     @GetMapping("/announcePage")
-    public IPage<Announcement> announcePage(@RequestParam Integer pageNum,
+    public Result announcePage(@RequestParam Integer pageNum,
                                             @RequestParam Integer pageSize,
                                             @RequestParam (defaultValue = "")String search){
-        //若没有传值，则赋默认值，防止将所有数据筛选出来
-        IPage<Story> page=new Page<>(pageNum,pageSize);
-        QueryWrapper queryWrapper=new QueryWrapper<Story>();
-//        queryWrapper.like("username",search);
-//        queryWrapper.or();
-        queryWrapper.like("title",search);
-        queryWrapper.or();
-        queryWrapper.like("content",search);
-        queryWrapper.orderByDesc("id");
-        return storyService.page(page,queryWrapper);
+        return announceService.allAnnounce(pageNum, pageSize, search, 0);
+    }
+
+    @GetMapping("/activityPage")
+    public Result activityPage(@RequestParam Integer pageNum,
+                               @RequestParam Integer pageSize,
+                               @RequestParam (defaultValue = "")String search){
+        return announceService.allActivity(pageNum, pageSize, search);
+    }
+
+    @GetMapping("/announceNum")
+    public Result announceNum() { return announceService.announceNum(); }
+
+    @GetMapping("/activityNum")
+    public Result activityNum() { return announceService.activityNum(); }
+
+    @PostMapping("/deleteAnnoucnce")
+    public Result deleteAnnoucnce(@RequestParam Integer announceId){
+        return adminService.deleteAnnounce(announceId);
+    }
+
+    @PostMapping("/deleteBatchAnnounce")
+    public Result deleteBatchAnnounce(@RequestBody List<Integer> announceIds){
+        return adminService.deleteBatchAnnounce(announceIds);
+    }
+
+    @PostMapping("/upAnnounceInfo")
+    public Result upAnnounceInfo(@RequestBody Announcement announceDto) {
+        return adminService.upAnnounceInfo(announceDto);
+    }
+
+    @PostMapping("/upActivityInfo")
+    public Result upActivityInfo(@RequestBody SlideShowAnnounceDto slideShowAnnounceDto) {
+        return adminService.upActivityInfo(slideShowAnnounceDto);
     }
 
     @GetMapping("/fragment/page")

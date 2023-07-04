@@ -63,13 +63,30 @@ public class SqlProvider {
 
     }
 
-    public String announce(@io.lettuce.core.dynamic.annotation.Param("page") Integer page) {
+    public String announce(@io.lettuce.core.dynamic.annotation.Param("page") Integer page,
+                           @io.lettuce.core.dynamic.annotation.Param("pageSize") Integer pageSize,
+                           @io.lettuce.core.dynamic.annotation.Param("search") String search,
+                           @io.lettuce.core.dynamic.annotation.Param("isActivity") Integer isActivity) {
         return new SQL() {{
             SELECT("*");
             FROM("announcement");
-            WHERE("is_activity = 0");
+            WHERE(String.format("is_activity = %d and (CONCAT(title, content) LIKE '%%%s%%')", isActivity, search));
             ORDER_BY("create_time DESC");
-            LIMIT(String.format("10 OFFSET %d", (page - 1) * 10));
+            LIMIT(String.format("%d OFFSET %d", pageSize, (page - 1) * pageSize));
+        }}.toString();
+
+    }
+
+    public String activity(@io.lettuce.core.dynamic.annotation.Param("page") Integer page,
+                           @io.lettuce.core.dynamic.annotation.Param("pageSize") Integer pageSize,
+                           @io.lettuce.core.dynamic.annotation.Param("search") String search) {
+        return new SQL() {{
+            SELECT("a.*, s.announcement_id as temp_id");
+            FROM("announcement a");
+            LEFT_OUTER_JOIN("slideshow s ON s.announcement_id=a.id");
+            WHERE(String.format("is_activity = 1 and (CONCAT(title, content) LIKE '%%%s%%')", search));
+            ORDER_BY("create_time DESC");
+            LIMIT(String.format("%d OFFSET %d", pageSize, (page - 1) * pageSize));
         }}.toString();
 
     }

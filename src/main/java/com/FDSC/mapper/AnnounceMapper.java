@@ -2,14 +2,12 @@ package com.FDSC.mapper;
 
 import com.FDSC.controller.dto.SlideShowDto;
 import com.FDSC.entity.Announcement;
+import com.FDSC.mapper.dto.ActivityTempDto;
 import com.FDSC.mapper.dto.AnnounceShowTempDto;
 import com.FDSC.mapper.dto.StoryTempDto;
 import com.FDSC.utils.SqlProvider;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.SelectProvider;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -21,10 +19,18 @@ public interface AnnounceMapper extends BaseMapper<Announcement> {
     public List<SlideShowDto> getSlideShow();
 
     @SelectProvider(type = SqlProvider.class, method = "announce")
-    public List<Announcement> getAllAnnounce(@Param("page") Integer page);
+    public List<Announcement> getAllAnnounce(@Param("page") Integer page, @Param("pageSize") Integer pageSize,
+                                             @Param("search") String search, @Param("isActivity") Integer isActivity);
+
+    @SelectProvider(type = SqlProvider.class, method = "activity")
+    public List<ActivityTempDto> getAllActivity(@Param("page") Integer page, @Param("pageSize") Integer pageSize,
+                                                @Param("search") String search);
 
     @Select("Select COUNT(1) from announcement WHERE is_activity = 0")
     public Integer getAnnounceNum();
+
+    @Select("Select COUNT(1) from announcement WHERE is_activity = 1")
+    public Integer getActivityNum();
 
     @Select("Select id, title, create_time \n" +
             "from announcement \n" +
