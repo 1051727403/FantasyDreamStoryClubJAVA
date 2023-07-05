@@ -45,7 +45,7 @@ public class UserService extends ServiceImpl<UserMapper, User> {
 
     public Map<String, Object> login(String username, String password) {
         User one=getUserInfo(username,password);
-        if(one!=null) {
+        if(one!=null && one.getRemoved()==0) {
             Map<String,Object>res=new HashMap<>();
             UserDTO userDTO=new UserDTO();
             //设置token
@@ -63,6 +63,7 @@ public class UserService extends ServiceImpl<UserMapper, User> {
             }
             return res;
         }else{
+            System.out.println("**************************");
             throw new ServiceException(Constants.CODE_600,"用户名或密码错误");
         }
     }

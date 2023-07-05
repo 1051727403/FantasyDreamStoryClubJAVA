@@ -48,8 +48,12 @@ public class UserController {
         if(StrUtil.isBlank(username)||StrUtil.isBlank(password)){
             return Result.error(Constants.CODE_400,"参数错误");
         }
-        Map<String,Object>res = userService.login(username,password);
-        return Result.success(res);
+        try{
+            Map<String,Object>res = userService.login(username,password);
+            return Result.success(res);
+        }catch (Exception e){
+            return Result.error(Constants.CODE_400,"登录失败");
+        }
     }
     //新增和修改
     @PostMapping
