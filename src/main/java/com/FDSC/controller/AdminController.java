@@ -4,6 +4,7 @@ import com.FDSC.common.Constants;
 import com.FDSC.common.Result;
 import com.FDSC.controller.dto.AnnounceDto;
 import com.FDSC.controller.dto.SlideShowAnnounceDto;
+import com.FDSC.controller.dto.StoryNewDto;
 import com.FDSC.controller.dto.UserInfoDto;
 import com.FDSC.entity.*;
 import com.FDSC.service.*;
@@ -18,6 +19,7 @@ import com.FDSC.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -36,6 +38,13 @@ public class AdminController {
     @Autowired
     private AnnounceService announceService;
 
+    @Autowired
+    private StoryTagService storyTagService;
+
+    @PostMapping("/upUserInfo")
+    public Result upUserInfo(@RequestBody UserInfoDto user) {
+        return userService.upUserInfo(user);
+    }
     @GetMapping("/userPage")
     public IPage<User> userPage(@RequestParam Integer pageNum,
                                 @RequestParam Integer pageSize,
@@ -181,6 +190,34 @@ public class AdminController {
     @GetMapping("/fragment/deleteFragment")
     public Result saveFragment(@RequestParam Long fragmentId){
         return fragmentService.deleteFragment(fragmentId);
+    }
+
+    @PostMapping("/saveStory")
+    public Result saveStory(@RequestBody StoryNewDto story){
+        try{
+            Story one = new Story();
+            one.setId(story.getId());
+            one.setStoryName(story.getStoryName());
+            one.setUserId(story.getUserId());
+            one.setIntroduce(story.getIntroduce());
+            one.setCoverUrl(story.getCoverUrl());
+            storyService.saveOrUpdate(one);
+            List<Long> tags = story.getTags();
+            System.out.println(tags);
+            if(tags!= null && !tags.isEmpty()) {
+                List<StoryTag> list = new ArrayList<>();
+                for (Long tagId:tags) {
+                    StoryTag storyTag = new StoryTag();
+                    storyTag.setStoryId(one.getId());
+                    storyTag.setTagId(tagId);
+                    list.add(storyTag);
+                }
+                storyTagService.saveOrUpdateBatch(list);
+            }
+            return Result.success(one.getId());
+        }catch (Exception e){
+            return Result.error(Constants.CODE_500,"数据缺失");
+        }
     }
 
 }
