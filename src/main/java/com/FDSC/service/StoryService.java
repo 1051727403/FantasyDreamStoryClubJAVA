@@ -111,7 +111,7 @@ public class StoryService extends ServiceImpl<StoryMapper, Story> {
                 temp.setDeltaTime(deltaTime(story.getUpdateTime()));
                 latests.add(temp);
             }
-            return Result.success(latests.subList(0, Math.min(latests.size(), 20)));
+            return Result.success(latests.subList(0, Math.min(latests.size(), 15)));
         }catch (Exception e){
             return Result.error("403","获取失败");
         }
