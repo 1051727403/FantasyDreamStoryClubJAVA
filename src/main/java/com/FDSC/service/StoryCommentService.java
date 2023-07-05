@@ -4,12 +4,12 @@ import com.FDSC.common.Constants;
 import com.FDSC.common.Result;
 import com.FDSC.controller.dto.FragmentDto;
 import com.FDSC.entity.StoryComment;
+import com.FDSC.exception.ServiceException;
 import com.FDSC.mapper.StoryCommentMapper;
 import com.FDSC.mapper.StoryMapper;
 import com.FDSC.mapper.dto.StoryMapperCommentDto;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.sun.xml.internal.ws.server.ServerRtException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,7 +39,7 @@ public class StoryCommentService extends ServiceImpl<StoryCommentMapper, StoryCo
             }
             return Result.success();
         }catch (Exception e){
-            throw new ServerRtException(Constants.CODE_500,"保存失败！");
+            throw new ServiceException(Constants.CODE_500,"保存失败！");
         }
     }
 
@@ -51,7 +51,7 @@ public class StoryCommentService extends ServiceImpl<StoryCommentMapper, StoryCo
         try {
             StoryCommentList=StoryCommentMapper.selectList(wrapper);
         }catch (Exception e){
-            throw new ServerRtException(Constants.CODE_500,"获取子评论失败");
+            throw new ServiceException(Constants.CODE_500,"获取子评论失败");
         }
         System.out.println("------------------------------------"+StoryCommentList.size());
         if (StoryCommentList==null||StoryCommentList.size()==0){
@@ -60,7 +60,7 @@ public class StoryCommentService extends ServiceImpl<StoryCommentMapper, StoryCo
                 StoryCommentMapper.deleteById(id);
                 return Result.success();
             }catch (Exception e){
-                throw new ServerRtException(Constants.CODE_500,"删除评论失败！");
+                throw new ServiceException(Constants.CODE_500,"删除评论失败！");
             }
         }else{
             //若有子评论则更新为：该评论已删除
@@ -69,7 +69,7 @@ public class StoryCommentService extends ServiceImpl<StoryCommentMapper, StoryCo
                 StoryCommentMapper.updateContent(id,content);
                 return Result.success();
             }catch (Exception e){
-                throw new ServerRtException(Constants.CODE_500,"删除评论失败！");
+                throw new ServiceException(Constants.CODE_500,"删除评论失败！");
             }
         }
     }
@@ -136,7 +136,7 @@ public class StoryCommentService extends ServiceImpl<StoryCommentMapper, StoryCo
         try {
             totalComment=storyMapper.selectById(storyId).getTotalComment();
         }catch (Exception e){
-            throw new ServerRtException(Constants.CODE_500,"评论数获取失败！");
+            throw new ServiceException(Constants.CODE_500,"评论数获取失败！");
         }
         res.put("totalComment",totalComment);
         return  Result.success(res);

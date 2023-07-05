@@ -8,6 +8,7 @@ import com.FDSC.controller.dto.FragmentDto;
 import com.FDSC.controller.dto.UpdateFragmentDto;
 import com.FDSC.entity.Fragment;
 import com.FDSC.entity.FragmentLikeCollection;
+import com.FDSC.exception.ServiceException;
 import com.FDSC.mapper.FragmentLikeCollectionMapper;
 import com.FDSC.mapper.FragmentMapper;
 import com.FDSC.mapper.StoryMapper;
@@ -15,7 +16,7 @@ import com.FDSC.mapper.dto.FragmentAndUserInfo;
 import com.FDSC.mapper.dto.FragmentMapperCommentDto;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.sun.xml.internal.ws.server.ServerRtException;
+
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -212,7 +213,7 @@ public class FragmentService extends ServiceImpl<FragmentMapper, Fragment> {
             try {
                 fragmentLikeCollection = fragmentLikeCollectionMapper.selectOne(wrapper);
             } catch (Exception e) {
-                throw new ServerRtException(Constants.CODE_500, "是否已点赞表中存在脏数据");
+                throw new ServiceException(Constants.CODE_500, "是否已点赞表中存在脏数据");
             }
             if (fragmentLikeCollection == null) {
                 isLike = isCollected = 0;
@@ -228,7 +229,7 @@ public class FragmentService extends ServiceImpl<FragmentMapper, Fragment> {
         try {
             totalComment=fragmentMapper.selectById(fragmentId).getTotalComment();
         }catch (Exception e){
-            throw new ServerRtException(Constants.CODE_500,"评论数获取失败！");
+            throw new ServiceException(Constants.CODE_500,"评论数获取失败！");
         }
         res.put("totalComment",totalComment);
         return Result.success(res);
@@ -255,13 +256,13 @@ public class FragmentService extends ServiceImpl<FragmentMapper, Fragment> {
         //获取父节点的allowrelay字段进行判断
         Fragment parent=fragmentMapper.selectById(addFragmentDto.getParentId());
         if(parent.getAllowRelay()==0&&parent.getUserId()!=addFragmentDto.getUserId()){
-            throw new ServerRtException(Constants.CODE_500,"该片段不可接龙，请刷新！");
+            throw new ServiceException(Constants.CODE_500,"该片段不可接龙，请刷新！");
         }else {
             try {
                 save(fragment);
                 return Result.success(fragment);
             } catch (Exception e) {
-                throw new ServerRtException(Constants.CODE_500, "保存片段失败！");
+                throw new ServiceException(Constants.CODE_500, "保存片段失败！");
             }
         }
 //        return Result.success();
@@ -280,7 +281,7 @@ public class FragmentService extends ServiceImpl<FragmentMapper, Fragment> {
             }
             return Result.success();
         }catch (Exception e){
-            throw new ServerRtException(Constants.CODE_500,"删除失败！");
+            throw new ServiceException(Constants.CODE_500,"删除失败！");
         }
     }
     //点赞还是取消点赞
@@ -295,14 +296,14 @@ public class FragmentService extends ServiceImpl<FragmentMapper, Fragment> {
                 try {
                     fragmentLikeCollectionMapper.changeLike(userId,fragmentId,beLike?1:0);
                 }catch (Exception e){
-                    throw new ServerRtException(Constants.CODE_500,"更新失败！");
+                    throw new ServiceException(Constants.CODE_500,"更新失败！");
                 }
             }else{
                 //未找到则插入
                 try {
                     fragmentLikeCollectionMapper.insertone(userId,fragmentId,beLike?1:0);
                 }catch (Exception e){
-                    throw new ServerRtException(Constants.CODE_500,"插入失败！");
+                    throw new ServiceException(Constants.CODE_500,"插入失败！");
                 }
             }
             return Result.success();
@@ -319,14 +320,14 @@ public class FragmentService extends ServiceImpl<FragmentMapper, Fragment> {
             try {
                 fragmentLikeCollectionMapper.changeCollection(userId,fragmentId,beCollection?1:0);
             }catch (Exception e){
-                throw new ServerRtException(Constants.CODE_500,"更新失败！");
+                throw new ServiceException(Constants.CODE_500,"更新失败！");
             }
         }else{
             //未找到则插入
             try {
                 fragmentLikeCollectionMapper.insertone(userId,fragmentId,beCollection?1:0);
             }catch (Exception e){
-                throw new ServerRtException(Constants.CODE_500,"插入失败！");
+                throw new ServiceException(Constants.CODE_500,"插入失败！");
             }
         }
         return Result.success();
@@ -338,7 +339,7 @@ public class FragmentService extends ServiceImpl<FragmentMapper, Fragment> {
         try {
             fragment =fragmentMapper.selectById(updateFragmentDto.getFragmentId());
         }catch (Exception e){
-            throw new ServerRtException(Constants.CODE_500,"不存在该片段，更新失败！");
+            throw new ServiceException(Constants.CODE_500,"不存在该片段，更新失败！");
         }
         fragment.setFragmentName(updateFragmentDto.getFragmentName());
         fragment.setContent(updateFragmentDto.getContent());
@@ -347,7 +348,7 @@ public class FragmentService extends ServiceImpl<FragmentMapper, Fragment> {
             fragmentMapper.updateById(fragment);
             return Result.success(fragment);
         }catch (Exception e){
-            throw new ServerRtException(Constants.CODE_500,"更新片段失败！");
+            throw new ServiceException(Constants.CODE_500,"更新片段失败！");
         }
     }
 
@@ -367,7 +368,7 @@ public class FragmentService extends ServiceImpl<FragmentMapper, Fragment> {
             fragmentMapper.updateById(fragment);
             return Result.success();
         }catch (Exception e){
-            throw new ServerRtException(Constants.CODE_500,"管理员更新片段失败");
+            throw new ServiceException(Constants.CODE_500,"管理员更新片段失败");
         }
     }
 }
