@@ -50,7 +50,7 @@ public interface StoryMapper extends BaseMapper<Story> {
 
     @Delete("Delete from story_collection where story_id=#{storyId} and user_id=#{userId}")
     boolean uncollected(String storyId, String userId);
-    @Select("Select id as storyId,total_like,total_collection,total_comment,story_name,cover_url,story.user_id as userId " +
+    @Select("Select id as storyId,total_like,total_collection,total_comment,story_name,cover_url,story.user_id as userId,introduce " +
             " from story " +
             " where user_id=#{userId}")
     List<StoryItemDto> usersStories(String userId);

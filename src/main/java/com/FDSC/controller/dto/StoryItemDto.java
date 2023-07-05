@@ -9,6 +9,8 @@ public class StoryItemDto {
 
     private Long userId;
 
+    private String introduce;
+
     private Integer totalLike;
 
     private Integer totalCollection;
