@@ -1,12 +1,12 @@
 package com.FDSC.service;
 
+import com.FDSC.exception.ServiceException;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.FDSC.common.Constants;
 import com.FDSC.common.Result;
 import com.FDSC.entity.FragmentComment;
 import com.FDSC.mapper.FragmentCommentMapper;
-import com.sun.xml.internal.ws.server.ServerRtException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,7 +32,7 @@ public class FragmentCommentService extends ServiceImpl<FragmentCommentMapper, F
             }
             return Result.success();
         }catch (Exception e){
-            throw new ServerRtException(Constants.CODE_500,"保存失败！");
+            throw new ServiceException(Constants.CODE_500,"保存失败！");
 
         }
 
@@ -47,7 +47,7 @@ public class FragmentCommentService extends ServiceImpl<FragmentCommentMapper, F
         try {
             fragmentCommentList=fragmentCommentMapper.selectList(wrapper);
         }catch (Exception e){
-            throw new ServerRtException(Constants.CODE_500,"获取子评论失败");
+            throw new ServiceException(Constants.CODE_500,"获取子评论失败");
         }
         if (fragmentCommentList==null||fragmentCommentList.size()==0){
             //若无子评论则直接删除
@@ -55,7 +55,7 @@ public class FragmentCommentService extends ServiceImpl<FragmentCommentMapper, F
                 fragmentCommentMapper.deleteById(id);
                 return Result.success();
             }catch (Exception e){
-                throw new ServerRtException(Constants.CODE_500,"删除评论失败！");
+                throw new ServiceException(Constants.CODE_500,"删除评论失败！");
             }
         }else{
             //若有子评论则更新为：该评论已删除
@@ -64,7 +64,7 @@ public class FragmentCommentService extends ServiceImpl<FragmentCommentMapper, F
                 fragmentCommentMapper.updateContent(id,content);
                 return Result.success();
             }catch (Exception e){
-                throw new ServerRtException(Constants.CODE_500,"删除评论失败！");
+                throw new ServiceException(Constants.CODE_500,"删除评论失败！");
             }
         }
     }
