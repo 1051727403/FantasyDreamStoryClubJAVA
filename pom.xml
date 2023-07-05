@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.LMS</groupId>
-	<artifactId>Logistics_Management_System</artifactId>
+	<artifactId>FantasyDreamStoryClub</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>Logistics_Management_System</name>
-	<description>Logistics_Management_System</description>
+	<name>FantasyDreamStoryClub</name>
+	<description>FantasyDreamStoryClub</description>
 	<properties>
 		<java.version>1.8</java.version>
 	</properties>
