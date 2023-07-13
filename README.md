@@ -8,8 +8,10 @@
 项目启动前请修改application.yml文件来配置数据库、redis、端口图片存放地址等   
 该项目为开源项目，欢迎大家提出修改意见或学习参考。   
 
+## 数据库结构文件如下  
+链接：https://pan.baidu.com/s/1eXt0lzsSPlnDfkKC2DHTDQ?pwd=6666   
+提取码：6666  
   
-
 
 
 ## 更新日志
