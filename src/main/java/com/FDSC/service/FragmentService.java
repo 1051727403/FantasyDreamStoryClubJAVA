@@ -252,7 +252,6 @@ public class FragmentService extends ServiceImpl<FragmentMapper, Fragment> {
         fragment.setContent(addFragmentDto.getContent());
         fragment.setAllowRelay(addFragmentDto.getAllowRelay());
         //检测是否允许接龙
-        //TODO
         //获取父节点的allowrelay字段进行判断
         Fragment parent=fragmentMapper.selectById(addFragmentDto.getParentId());
         if(parent.getAllowRelay()==0&&parent.getUserId()!=addFragmentDto.getUserId()){
@@ -265,7 +264,6 @@ public class FragmentService extends ServiceImpl<FragmentMapper, Fragment> {
                 throw new ServiceException(Constants.CODE_500, "保存片段失败！");
             }
         }
-//        return Result.success();
     }
     //删除片段
     public Result deleteFragment(Long fragmentId) {

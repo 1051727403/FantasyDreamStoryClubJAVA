@@ -14,11 +14,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class InterceptorConfig implements WebMvcConfigurer {
 
 
-//    @Bean
-//    public JwtInterceptor jwtInterceptor(){
-//        return new JwtInterceptor();
-//    }
-
     @Autowired
     private JwtInterceptor jwtInterceptor;
     @Override
@@ -33,7 +28,6 @@ public class InterceptorConfig implements WebMvcConfigurer {
                                     "/search/**",
                                     "/fragment/loadAllFragment","/fragment/loadauthorInfoAndComment","/fragment/getFragInfo","/fragment/getUserFrag","/fragment/getCollectFrag",
                                     "/announce/**");//这些接口不验证,暂时接口全部开放"
-
     }
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
@@ -43,5 +37,4 @@ public class InterceptorConfig implements WebMvcConfigurer {
         registry.addResourceHandler("/img/**").addResourceLocations("file:D:\\image\\");
         WebMvcConfigurer.super.addResourceHandlers(registry);
     }
-
 }
