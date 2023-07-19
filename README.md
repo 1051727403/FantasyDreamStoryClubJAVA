@@ -5,7 +5,7 @@ FantasyDreamStoryClub-绮梦故事会网站源码分享（故事接龙网站）
 **前端源码跳转：[https://github.com/1051727403/FantasyDreamStoryClubJAVA](https://github.com/1051727403/FantasyDreamStoryClubVUE)**
    
 # 使用方式：  
-本项目为springboot项目，项目成品可通过访问域名查看：www.qmstory.club   
+本项目为springboot项目，项目成品可通过访问域名查看：www.qmstory.club或ip地址:http://118.89.184.240/
 项目启动前请修改application.yml文件来配置数据库、redis、端口图片存放地址等   
 该项目为开源项目，欢迎大家提出修改意见或学习参考。   
 
@@ -19,7 +19,7 @@ FantasyDreamStoryClub-绮梦故事会网站源码分享（故事接龙网站）
 ## 更新日志
 
 2023-6-28
--  ist转树形成功！评论区后端获取成功！
+-  List转树形成功！评论区后端获取成功！
 
 2023-6-30
 - 添加删除片段功能实现
